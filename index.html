@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming</title>
-    <!-- Script Oficial do Supabase para o funcionamento do banco de dados -->
+    <!-- Script Oficial do Supabase -->
     <script src="https://jsdelivr.net"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -22,13 +22,7 @@
         .banner-desc { font-size: 16px; line-height: 1.4; margin-bottom: 20px; color: #cccccc; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
         .btn-play { background-color: white; color: black; padding: 10px 25px; border: none; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-right: 10px; transition: 0.2s; }
         
-        /* Fileiras de Músicas e Vídeos */
-        .row { padding: 30px 4% 0 4%; }
-        .row-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #e5e5e5; }
-        .row-posters { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .poster { width: 200px; height: 120px; object-fit: cover; border-radius: 4px; background-color: #222; }
-
-        /* Janela Flutuante de Login / Registo (Modal) */
+        /* Janela Flutuante de Login / Registo */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; }
         .modal-content { background-color: #000; padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid #333; position: relative; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #888; }
@@ -84,9 +78,20 @@
         </div>
     </div>
 
-    <!-- CARREGAMENTO DOS SCRIPTS -->
-    <script src="supabase.js"></script>
+    <!-- CODE SCRIPT CENTRALIZADO -->
     <script>
+        // Inicialização embutida para evitar erros de leitura externa
+        const SUPABASE_URL = "https://supabase.co";
+        const SUPABASE_KEY = "sb_publishable_YLYSpSWDa6-h0Fsihf0tuw_iKZdCMwXmKxP0b_K88_3Rsmb1K5-PZ_g";
+        
+        // Garante que o Supabase carrega mesmo se a rede falhar temporariamente
+        let supabase;
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        } catch (err) {
+            console.error("Falha ao iniciar cliente Supabase", err);
+        }
+
         let modoRegisto = false;
 
         function abrirModal() { document.getElementById('loginModal').style.display = 'flex'; }
@@ -112,22 +117,23 @@
             }
         }
 
-        // CONEXÃO COM O SUPABASE CONFIGURADO
         document.getElementById('authForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            if (!supabase) {
+                alert("Erro crítico: A conexão com o banco de dados falhou. Verifique a sua internet.");
+                return;
+            }
+
             const email = document.getElementById('userEmail').value;
             const password = document.getElementById('userPassword').value;
             const phone = document.getElementById('userPhone').value;
 
             if (modoRegisto) {
-                // Criar conta na Base de Dados
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
-                    options: {
-                        data: { phone_number: phone }
-                    }
+                    options: { data: { phone_number: phone } }
                 });
 
                 if (error) {
@@ -137,7 +143,6 @@
                     fecharModal();
                 }
             } else {
-                // Entrar na conta existente
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -149,7 +154,6 @@
                     alert("Conectado com sucesso!");
                     fecharModal();
                     
-                    // Redirecionamento automático do Dono do site
                     if (email.trim().toLowerCase() === "mpindinoelevogarcia@gmail.com") {
                         window.location.href = "admin.html";
                     }
