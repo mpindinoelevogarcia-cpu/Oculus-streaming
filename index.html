@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming</title>
-    <!-- Script Oficial do Supabase -->
-    <script src="https://jsdelivr.net"></script>
+    <!-- Servidor alternativo ultra estável para carregar o Supabase sem bloqueios -->
+    <script src="https://unpkg.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         body { background-color: #141414; color: #fff; overflow-x: hidden; }
@@ -78,18 +78,16 @@
         </div>
     </div>
 
-    <!-- CODE SCRIPT CENTRALIZADO -->
+    <!-- SCRIPT DE EXECUÇÃO INTERNA -->
     <script>
-        // Inicialização embutida para evitar erros de leitura externa
         const SUPABASE_URL = "https://supabase.co";
         const SUPABASE_KEY = "sb_publishable_YLYSpSWDa6-h0Fsihf0tuw_iKZdCMwXmKxP0b_K88_3Rsmb1K5-PZ_g";
         
-        // Garante que o Supabase carrega mesmo se a rede falhar temporariamente
         let supabase;
         try {
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         } catch (err) {
-            console.error("Falha ao iniciar cliente Supabase", err);
+            console.error("Erro na inicialização", err);
         }
 
         let modoRegisto = false;
@@ -121,7 +119,8 @@
             e.preventDefault();
             
             if (!supabase) {
-                alert("Erro crítico: A conexão com o banco de dados falhou. Verifique a sua internet.");
+                alert("Erro: A carregar componentes de segurança. Aguarde 3 segundos e tente novamente.");
+                window.location.reload();
                 return;
             }
 
@@ -130,6 +129,7 @@
             const phone = document.getElementById('userPhone').value;
 
             if (modoRegisto) {
+                // Guarda o número de telefone de forma gratuita nos metadados
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
@@ -151,7 +151,7 @@
                 if (error) {
                     alert("Erro ao entrar: " + error.message);
                 } else {
-                    alert("Conectado com sucesso!");
+                    alert("Dono autenticado com sucesso!");
                     fecharModal();
                     
                     if (email.trim().toLowerCase() === "mpindinoelevogarcia@gmail.com") {
