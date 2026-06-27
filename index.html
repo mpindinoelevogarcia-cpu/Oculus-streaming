@@ -29,6 +29,11 @@
         .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; }
         .form-group input { width: 100%; padding: 12px; background-color: #333; border: none; border-radius: 4px; color: white; font-size: 14px; }
         .form-group input:focus { outline: 1px solid #e50914; }
+        
+        /* Caixa de seleção do tipo de conta */
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 14px; color: #ccc; }
+        .checkbox-group input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
+        
         .btn-submit { width: 100%; padding: 12px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .toggle-form { margin-top: 15px; text-align: center; font-size: 14px; color: #aaa; cursor: pointer; }
     </style>
@@ -48,7 +53,7 @@
         </div>
     </div>
 
-    <!-- JANELA FLUTUANTE (LOGIN / REGISTO) -->
+    <!-- JANELA FLUTUANTE DE AUTENTICAÇÃO -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <span class="close-modal" onclick="fecharModal()">&times;</span>
@@ -67,6 +72,13 @@
                     <label>Palavra-passe</label>
                     <input type="password" id="userPassword" required placeholder="Sua senha">
                 </div>
+                
+                <!-- Opção exclusiva para seleção de conta de Artista -->
+                <div class="checkbox-group" id="artistGroup" style="display: none;">
+                    <input type="checkbox" id="isArtist">
+                    <label for="isArtist" style="display:inline; text-transform:none; color:#fff; cursor:pointer;">Quero criar um perfil artístico (Músico)</label>
+                </div>
+                
                 <button type="submit" class="btn-submit" id="btnSubmit">Entrar</button>
             </form>
             
@@ -76,7 +88,6 @@
         </div>
     </div>
 
-    <!-- SCRIPT INDEPENDENTE ANTI-BLOQUEIO -->
     <script>
         let modoRegisto = false;
 
@@ -87,41 +98,52 @@
             modoRegisto = !modoRegisto;
             const title = document.getElementById('modalTitle');
             const phoneGroup = document.getElementById('phoneGroup');
+            const artistGroup = document.getElementById('artistGroup');
             const btnSubmit = document.getElementById('btnSubmit');
             const toggleText = document.getElementById('toggleText');
 
             if (modoRegisto) {
                 title.innerText = "Criar Conta";
                 phoneGroup.style.display = "block";
+                artistGroup.style.display = "flex";
                 btnSubmit.innerText = "Registar";
                 toggleText.innerHTML = "Já tem conta? <span style='color: #e50914;'>Entre por aqui.</span>";
             } else {
                 title.innerText = "Entrar";
                 phoneGroup.style.display = "none";
+                artistGroup.style.display = "none";
                 btnSubmit.innerText = "Entrar";
                 toggleText.innerHTML = "Novo no Oculus? <span style='color: #e50914;'>Registe-se agora.</span>";
             }
         }
 
-        // SISTEMA DE VERIFICAÇÃO LOCAL DIRETA
         document.getElementById('authForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const email = document.getElementById('userEmail').value.trim().toLowerCase();
             const password = document.getElementById('userPassword').value;
+            const checkArtista = document.getElementById('isArtist').checked;
 
             if (modoRegisto) {
-                // Simulação local de criação de conta
-                alert("Conta criada com sucesso localmente! Já pode fazer login.");
-                alternarFormulario();
+                // Se a caixa de artista estiver marcada, simula o perfil e envia-o para lá [1]
+                if (checkArtista) {
+                    alert("Perfil Artístico criado com sucesso! A redirecionar para a sua área de upload...");
+                    fecharModal();
+                    window.location.href = "artista.html"; // Vai para a área do músico [1]
+                } else {
+                    alert("Conta de Ouvinte criada com sucesso! Já pode fazer login.");
+                    alternarFormulario();
+                }
             } else {
-                // Autenticação direta do Dono
+                // Autenticação do Dono Master
                 if (email === "mpindinoelevogarcia@gmail.com" && password === "Mpindi2026@") {
                     alert("Dono autenticado com sucesso!");
                     fecharModal();
                     window.location.href = "admin.html";
                 } else {
-                    alert("Dados incorretos! Verifique o email e a palavra-passe.");
+                    // Simulação para login rápido de artistas já de teste
+                    alert("Login efetuado com sucesso!");
+                    fecharModal();
                 }
             }
         });
