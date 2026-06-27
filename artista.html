@@ -3,115 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oculus - Painel do Artista</title>
+    <title>Oculus - Creator Studio</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #0c0c0c; color: #fff; padding: 20px; }
-        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #222; padding-bottom: 15px; margin-bottom: 30px; }
-        h1 { color: #fff; font-size: 24px; }
-        h1 span { color: #e50914; }
-        .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; }
-        .card { background-color: #141414; padding: 25px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
-        .card-title { font-size: 18px; margin-bottom: 20px; color: #e5e5e5; border-left: 4px solid #e50914; padding-left: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0c0c0c; color: #fff; display: flex; min-height: 100vh; }
         
-        /* Formulários */
+        /* Menu Lateral Estilo Creator */
+        .sidebar { width: 260px; background-color: #141414; border-right: 1px solid #222; padding: 20px; flex-shrink: 0; }
+        .sidebar-brand { font-size: 22px; font-weight: bold; color: #e50914; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        .menu-btn { width: 100%; padding: 12px 15px; background: none; border: none; color: #aaa; text-align: left; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 6px; margin-bottom: 8px; transition: 0.2s; }
+        .menu-btn:hover, .menu-btn.active { background-color: #222; color: #fff; border-left: 4px solid #e50914; }
+        
+        /* Área Conteúdo Principal */
+        .main-content { flex-grow: 1; padding: 30px; overflow-y: auto; background-color: #0c0c0c; }
+        .panel-section { display: none; }
+        .panel-section.active { display: block; }
+        
+        .section-title { font-size: 24px; margin-bottom: 20px; color: #fff; border-bottom: 2px solid #222; padding-bottom: 10px; font-weight: bold; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { background-color: #141414; padding: 25px; border-radius: 8px; border: 1px solid #222; margin-bottom: 20px; }
+        .card-subtitle { font-size: 16px; margin-bottom: 15px; color: #e50914; font-weight: bold; }
+        
+        /* Formulários e Inputs */
         .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; color: #888; margin-bottom: 5px; text-transform: uppercase; }
-        input[type="text"], textarea { width: 100%; padding: 10px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 4px; color: #fff; font-size: 14px; }
-        input:focus, textarea:focus { border-color: #e50914; outline: none; }
+        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        input[type="text"], input[type="email"], input[type="url"], select, textarea { width: 100%; padding: 10px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 4px; color: #fff; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { border-color: #e50914; outline: none; }
         
         /* Botões */
-        .btn { width: 100%; padding: 12px; background-color: #e50914; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; text-transform: uppercase; transition: 0.2s; }
+        .btn { padding: 10px 20px; background-color: #e50914; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 13px; transition: 0.2s; }
         .btn:hover { background-color: #b80710; }
+        .btn-success { background-color: #2ecc71; color: white; }
+        .btn-success:hover { background-color: #27ae60; }
+        .btn-danger { background-color: #e74c3c; color: white; }
+        .btn-danger:hover { background-color: #c0392b; }
+
+        /* Tabelas */
+        table { width: 100%; border-collapse: collapse; background-color: #141414; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #222; font-size: 14px; }
+        th { background-color: #1a1a1a; color: #888; text-transform: uppercase; font-size: 12px; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .badge-rascunho { background-color: #f39c12; color: #000; }
+        .badge-publico { background-color: #2ecc71; color: #fff; }
         
-        /* Contador Auditado */
-        .stat-box { display: flex; justify-content: space-between; align-items: center; background-color: #0c0c0c; padding: 15px; border-radius: 4px; border-left: 4px solid #2ecc71; margin-bottom: 10px; }
-        .stat-box.downloads { border-left-color: #3498db; }
-        .stat-box span { font-size: 14px; color: #aaa; }
-        .stat-box strong { font-size: 20px; color: #fff; }
-        .info-concurso { font-size: 12px; color: #888; text-align: center; margin-top: 10px; display: block; }
+        /* Caixa de Alerta de Notificação do Admin/Dono */
+        .notification-box { background-color: #2c3e50; border-left: 6px solid #3498db; padding: 15px; border-radius: 4px; margin-bottom: 25px; display: block; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>👁️ Oculus <span>Artista</span></h1>
-        <div><strong>Conta:</strong> Verificada ✓</div>
-    </header>
-
-    <div class="grid">
-        
-        <!-- Coluna Esquerda: Perfil e Métricas Blindadas -->
-        <div>
-            <!-- Perfil -->
-            <div class="card">
-                <div class="card-title">Perfil Artístico</div>
-                <div class="form-group">
-                    <label>Nome Artístico</label>
-                    <input type="text" value="Nome do Músico">
-                </div>
-                <div class="form-group">
-                    <label>Biografia / História</label>
-                    <textarea rows="4">Escreve a tua biografia aqui...</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Link da Foto (postagem.com)</label>
-                    <input type="text" placeholder="https://postagem.com">
-                </div>
-                <button class="btn" style="background-color: #333;">Atualizar Perfil</button>
-            </div>
-
-            <!-- Métricas Anti-Batota para o Sorteio -->
-            <div class="card">
-                <div class="card-title">Métricas Sistema (Auditadas)</div>
-                <div class="stat-box">
-                    <span>Plays Reais (Únicos)</span>
-                    <strong>0</strong>
-                </div>
-                <div class="stat-box downloads">
-                    <span>Downloads Reais</span>
-                    <strong>0</strong>
-                </div>
-                <small class="info-concurso">🔒 Sistema anti-spam ativo. Apenas cliques validados contam para o TOP 3 Publicidade.</small>
-            </div>
-        </div>
-
-        <!-- Coluna Direita: Submissão de Músicas e Vídeos -->
-        <div>
-            <div class="card">
-                <div class="card-title">Submeter Novo Conteúdo (Fila de Rascunhos)</div>
-                <form>
-                    <div class="form-group">
-                        <label>Título da Obra</label>
-                        <input type="text" placeholder="Ex: Minha Nova Música de Sucesso">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Tipo de Conteúdo</label>
-                        <input type="text" placeholder="musica ou video">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Link Direto do Áudio (Archive.org)</label>
-                        <input type="text" placeholder="https://archive.org">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Link do Vídeo (YouTube, TikTok ou Facebook)</label>
-                        <input type="text" placeholder="https://youtube.com...">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Link da Capa (postagem.com)</label>
-                        <input type="text" placeholder="https://postagem.com">
-                    </div>
-
-                    <button type="button" class="btn">Enviar para Aprovação do Dono</button>
-                </form>
-            </div>
-        </div>
-
+    <!-- MENU LATERAL CREATOR STUDIO -->
+    <div class="sidebar">
+        <div class="sidebar-brand">Oculus Studio</div>
+        <button class="menu-btn active" id="btn-perfil" onclick="mudarAba('perfil')">👤 Editar Perfil</button>
+        <button class="menu-btn" id="btn-upload" onclick="mudarAba('upload')">📤 Subir Conteúdo</button>
+        <button class="menu-btn" id="btn-biblioteca" onclick="mudarAba('biblioteca')">📁 Biblioteca & Docs</button>
+        <button class="menu-btn" id="btn-rascunhos" onclick="mudarAba('rascunhos')">📝 Meus Rascunhos</button>
+        <button class="menu-btn" id="btn-estatisticas" onclick="mudarAba('estatisticas')">📊 Estatísticas Reais</button>
     </div>
 
-</body>
-</html>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+        
+        <!-- Alerta de Mensagem do Dono do Site -->
+        <div class="notification-box" id="alertaAdmin" style="display: none;">
+            <strong>🔔 Notificação do Administrador:</strong> <span id="textoNotificacao">Nenhuma advertência pendente.</span>
+        </div>
+
+        <!-- 1. PAINEL DE EDIÇÃO DE PERFIL -->
+        <div id="perfil" class="panel-section active">
+            <div class="section-title">Configuração Básica do Canal Artístico</div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-subtitle">Identificação & Localidade</div>
+                    <div class="form-group"><label>Nome de Artista *</label><input type="text" id="pNome" placeholder="Ex: MC Músico"></div>
+                    <div class="form-group"><label>Número de Telefone 1 *</label><input type="text" id="pTel1" placeholder="+244 9xx xxx xxx"></div>
+                    <div class="form-group"><label>Número de Telefone 2 (Opcional)</label><input type="text" id="pTel2" placeholder="+244 9xx xxx xxx"></div>
+                    <div class="form-group"><label>País de Origem</label><input type="text" id="pOrigem" placeholder="Ex: Angola"></div>
+                    <div class="form-group"><label>País de Nacionalidade</label><input type="text" id="pNacio" placeholder="Ex: Angola"></div>
+                </div>
+                <div class="card">
+                    <div class="card-subtitle">Biografias & Fotos</div>
+                    <div class="form-group"><label>Biografia Curta (Localidade - Máx 30 Caracteres)</label><input type="text" id="pBioCurta" maxlength="30" placeholder="Ex: Rapper de Luanda, Sambizanga"></div>
+                    <div class="form-group"><label>Biografia Oficial Completa (Opcional)</label><textarea id="pBioLonga" rows="5" placeholder="Conte a sua história detalhada..."></textarea></div>
+                    <div class="form-group"><label>Link da Foto de Perfil (postimages.org / postagem.com)</label><input type="url" id="pFoto" placeholder="https://postimages.org/..."></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-subtitle">Redes Sociais & Canais de Contacto (Até 6 links)</div>
+                <div class="grid-2">
+                    <div class="form-group"><label>YouTube Link 1</label><input type="text" id="pYt1" placeholder="https://youtube.com... ou Iframe"></div>
+                    <div class="form-group"><label>YouTube Link 2</label><input type="text" id="pYt2" placeholder="https://youtube.com... ou Iframe"></div>
+                    <div class="form-group"><label>WhatsApp Link 1</label><input type="url" id="pWp1" placeholder="https://wa.me..."></div>
+                    <div class="form-group"><label>WhatsApp Link 2</label><input type="url" id="pWp2" placeholder="https://wa.me..."></div>
+                    <div class="form-group"><label>Facebook Oficial</label><input type="url" id="pFb" placeholder="https://facebook.com..."></div>
+                    <div class="form-group"><label>Instagram Oficial</label><input type="url" id="pIg" placeholder="https://instagram.com..."></div>
+                </div>
+                <button class="btn" onclick="alert('Perfil guardado com sucesso localmente!')">Salvar Alterações do Canal</button>
+            </div>
+        </div>
+
+        <!-- 2. PAINEL DE SUBIR CONTEÚDOS -->
+        <div id="upload" class="panel-section">
+            <div class="section-title">Carregar Novas Obras Musicais ou Eventos</div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-subtitle">Lançamento de Áudio ou Vídeo</div>
+                    <form id="formUpload">
+                        <div class="form-group"><label>Título da Obra *</label><input type="text" id="uTitulo" required placeholder="Ex: Linhas de Fogo"></div>
+                        <div class="form-group">
+                            <label>Categoria do Projeto *</label>
+                            <select id="uCategoria">
+                                <option value="Solo">Música Solo (Single)</option>
+                                <option value="EP">Projecto: EP</option>
+                                <option value="Mixtape">Projecto: Mixtape</option>
+                                <option value="Album">Projecto: Álbum</option>
+                                <option value="Video">Vídeo Independente</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Link do Arquivo (Áudio Archive.org / Link Vídeo YouTube)</label><input type="text" id="uLink" required placeholder="Cole o link de partilha ou o código Iframe do YouTube"></div>
+                        <div class="form-group"><label>Link da Capa do Post (postimages.org)</label><input type="url" id="uCapa" required placeholder="https://postimages.org/..."></div>
+                        <button type="submit" class="btn">Subir para os Meus Rascunhos</button>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <div class="card-subtitle">Agendar Novo Evento / Show</div>
+                    <form id="formEvento">
+                        <div class="form-group"><label>Nome do Evento</label><input type="text" placeholder="Ex: Oculus Live Festival"></div>
