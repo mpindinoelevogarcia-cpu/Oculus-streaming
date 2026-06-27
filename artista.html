@@ -8,6 +8,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0c0c0c; color: #fff; padding-bottom: 50px; }
 
+        /* TOPO DO PERFIL (CAPA E AVATAR) */
         .profile-container { max-width: 1030px; margin: 0 auto; background-color: #141414; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; overflow: hidden; border: 1px solid #222; }
         .cover-photo-box { width: 100%; height: 320px; background: linear-gradient(45deg, #222, #333); position: relative; }
         .cover-photo-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -22,13 +23,21 @@
         .btn-blue { background-color: #1877f2; color: white; }
         .btn-gray { background-color: #3a3b3c; color: white; }
 
+        /* NAVEGAÇÃO HORIZONTAL DE ABAS */
         .profile-nav { display: flex; gap: 5px; padding: 0 20px; border-top: 1px solid #222; background-color: #141414; }
-        .nav-tab-btn { background: none; border: none; color: #b0b3b8; padding: 15px 16px; font-size: 15px; font-weight: 600; cursor: pointer; position: relative; }
+        .nav-tab-btn { background: none; border: none; color: #b0b3b8; padding: 15px 16px; font-size: 15px; font-weight: 600; cursor: pointer; position: relative; transition: 0.2s; }
+        .nav-tab-btn:hover { color: #fff; background-color: #222; }
         .nav-tab-btn.active { color: #1877f2; }
         .nav-tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background-color: #1877f2; }
 
+        /* SECCÕES DAS ABAS (FEED, UPLOAD, STATS) */
+        .tab-section { display: none; }
+        .tab-section.active { display: block; }
+
+        /* ABA GERAL: DIVISÃO EM COLUNA DE FOTOS E COLUNA DE VÍDEOS (FEED) */
         .feed-grid-layout { max-width: 1030px; margin: 20px auto 0 auto; display: grid; grid-template-columns: 360px 1fr; gap: 16px; }
         
+        /* COLUNA DA ESQUERDA: GRELHA DE FOTOS */
         .left-info-column { display: flex; flex-direction: column; gap: 16px; }
         .fb-card { background-color: #242526; border-radius: 8px; padding: 16px; border: 1px solid #2d2e2f; }
         .fb-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
@@ -38,6 +47,7 @@
         .photo-item { width: 100%; height: 108px; background-color: #141414; border: 1px solid #3a3b3c; overflow: hidden; }
         .photo-item img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* COLUNA DA DIREITA: FEED */
         .right-feed-column { display: flex; flex-direction: column; gap: 16px; }
         .creator-post-box { background-color: #242526; border-radius: 8px; padding: 16px; border: 1px solid #2d2e2f; }
         .post-input-row { display: flex; gap: 10px; align-items: center; border-bottom: 1px solid #3a3b3c; padding-bottom: 12px; margin-bottom: 10px; }
@@ -55,19 +65,25 @@
         .post-media-video-display { width: 100%; position: relative; padding-bottom: 56.25%; height: 0; background-color: #0c0c0c; border-radius: 6px; overflow: hidden; border: 1px solid #3a3b3c; }
         .post-media-video-display iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        .other-panel-section { display: none; max-width: 1030px; margin: 20px auto 0 auto; background-color: #242526; border-radius: 8px; padding: 25px; border: 1px solid #2d2e2f; }
-        .other-panel-section.active { display: block; }
+        /* ESTILO DOS FORMULÁRIOS DAS OUTRAS ABAS */
+        .inner-container-box { max-width: 1030px; margin: 20px auto 0 auto; background-color: #242526; border-radius: 8px; padding: 25px; border: 1px solid #2d2e2f; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 11px; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 6px; color: #fff; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 14px; }
+        .form-group input:focus { border-color: #1877f2; outline: none; }
     </style>
 </head>
 <body>
 
+    <!-- CABEÇALHO DO PERFIL (ESTILO FACEBOOK) -->
     <div class="profile-container">
-        <div class="cover-photo-box"><img src="https://unsplash.com" id="coverImg"></div>
+        <div class="cover-photo-box">
+            <img src="https://unsplash.com" id="coverImg" alt="Capa">
+        </div>
         <div class="profile-details-wrapper">
-            <div class="avatar-box"><img src="https://unsplash.com" id="avatarImg"></div>
+            <div class="avatar-box">
+                <img src="https://unsplash.com" id="avatarImg" alt="Perfil">
+            </div>
             <div class="artist-info-text">
                 <div class="artist-name" id="labelArtistName">Depini Mbongo Edpmusic</div>
                 <div class="artist-stats">5 mil seguidores • 121 a seguir</div>
@@ -76,6 +92,8 @@
                 <button class="btn-action btn-blue" onclick="mudarAbaMenu('feed-geral', this)">🏠 Feed Geral</button>
             </div>
         </div>
+
+        <!-- ABAS DE NAVEGAÇÃO HORIZONTAIS -->
         <div class="profile-nav">
             <button class="nav-tab-btn active" onclick="mudarAbaMenu('feed-geral', this)">Tudo (Feed)</button>
             <button class="nav-tab-btn" onclick="mudarAbaMenu('aba-upload', this)">Subir Vídeo/Música</button>
@@ -83,60 +101,48 @@
         </div>
     </div>
 
-    <div id="feed-geral" class="feed-grid-layout">
-        <div class="left-info-column">
-            <div class="fb-card">
-                <div class="fb-card-header"><div class="fb-card-title">Fotos</div></div>
-                <div class="photos-grid" id="galeriaFotosEsquerda">
-                    <div class="photo-item"><img src="https://unsplash.com"></div>
-                    <div class="photo-item"><img src="https://unsplash.com"></div>
-                    <div class="photo-item"><img src="https://unsplash.com"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="right-feed-column">
-            <div class="creator-post-box">
-                <div class="post-input-row">
-                    <img class="mini-avatar" src="https://unsplash.com"><button class="post-trigger-input" onclick="mudarAbaMenu('aba-upload')">Em que estás a pensar, Depini?</button>
-                </div>
-            </div>
-            <div id="containerFeedVideos">
-                <div class="feed-post-card">
-                    <div class="post-header">
-                        <img class="mini-avatar" src="https://unsplash.com">
-                        <div><div class="post-author-name">Depini Mbongo Edpmusic</div><div class="post-time">Videoclipe Ativo • Lançamento Oficial ✓</div></div>
+    <!-- 1. ABA DO FEED PRINCIPAL -->
+    <div id="feed-geral" class="tab-section active">
+        <div class="feed-grid-layout">
+            <!-- COLUNA DA ESQUERDA: FOTOS -->
+            <div class="left-info-column">
+                <div class="fb-card">
+                    <div class="fb-card-header"><div class="fb-card-title">Fotos</div></div>
+                    <div class="photos-grid" id="galeriaFotosEsquerda">
+                        <div class="photo-item"><img src="https://unsplash.com"></div>
+                        <div class="photo-item"><img src="https://unsplash.com"></div>
+                        <div class="photo-item"><img src="https://unsplash.com"></div>
                     </div>
-                    <div class="post-caption">Ainda não consegui sair desse vídeo... <strong>Ver mais</strong></div>
-                    <div class="post-media-video-display"><iframe src="https://youtube.com" allowfullscreen></iframe></div>
+                </div>
+            </div>
+
+            <!-- COLUNA DA DIREITA: FEED -->
+            <div class="right-feed-column">
+                <div class="creator-post-box">
+                    <div class="post-input-row">
+                        <img class="mini-avatar" src="https://unsplash.com">
+                        <button class="post-trigger-input" onclick="mudarAbaMenu('aba-upload')">Em que estás a pensar, Depini?</button>
+                    </div>
+                </div>
+                <div id="containerFeedVideos">
+                    <div class="feed-post-card">
+                        <div class="post-header">
+                            <img class="mini-avatar" src="https://unsplash.com">
+                            <div>
+                                <div class="post-author-name">Depini Mbongo Edpmusic</div>
+                                <div class="post-time">Videoclipe Ativo • Lançamento Oficial ✓</div>
+                            </div>
+                        </div>
+                        <div class="post-caption">Lançamento oficial do novo videoclipe no Oculus Streaming! 🔥</div>
+                        <div class="post-media-video-display"><iframe src="https://youtube.com" allowfullscreen></iframe></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="aba-upload" class="other-panel-section">
-        <h3>Lançar Novo Videoclipe ou Single no Feed</h3>
-        <form id="formFBUpload">
-            <div class="form-group"><label>Título ou Descrição *</label><input type="text" id="fbTitulo" required></div>
-            <div class="form-group"><label>Link do Vídeo do YouTube (Link ou Iframe) *</label><input type="text" id="fbLink" required></div>
-            <div class="form-group"><label>Link da Capa do Post (postimages.org)</label><input type="url" id="fbCapa"></div>
-            <button type="submit" class="btn-action btn-blue" style="width:100%; padding:12px;">Publicar no Feed</button>
-        </form>
-    </div>
-
-    <div id="aba-estatisticas" class="other-panel-section">
-        <h3>Monitor de Audiência Reais</h3>
-        <h2 style="color:#2ecc71; margin-top:10px;">4,850 views consolidadas</h2>
-    </div>
-
-    <script>
-        function mudarAbaMenu(idSeccao, b) {
-            document.getElementById('feed-geral').style.display = 'none';
-            document.querySelectorAll('.other-panel-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
-            if (idSeccao === 'feed-geral') { document.getElementById('feed-geral').style.display = 'grid'; } 
-            else { document.getElementById(idSeccao).classList.add('active'); }
-            if (b) b.classList.add('active');
-        }
-
-        function extrairCodigoYoutube(txt) {
+    <!-- 2. ABA DE UPLOAD DE CONTEÚDO -->
+    <div id="aba-upload" class="tab-section">
+        <div class="inner-container-box">
+            <h3 style="margin-bottom:15px; color:#1877f2;">Lançar Novo Videoclipe ou Single no Feed</h3>
+            <form id="formFBUpload">
