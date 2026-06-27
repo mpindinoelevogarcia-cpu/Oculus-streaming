@@ -2,10 +2,70 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+        body { background-color: #141414; color: #fff; overflow-x: hidden; }
+        
+        /* Menu do Topo */
+        header { position: fixed; top: 0; width: 100%; padding: 20px 4%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); z-index: 10; }
+        .logo { font-size: 24px; font-weight: bold; color: #e50914; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-login { background-color: #e50914; color: white; padding: 7px 17px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 14px; }
+        
+        /* Destaque Principal */
+        .banner { position: relative; height: 75vh; background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url('https://unsplash.com') no-repeat center center/cover; display: flex; align-items: center; padding: 0 4%; }
+        .banner-content { max-width: 600px; }
+        .banner-title { font-size: 48px; font-weight: bold; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .banner-desc { font-size: 16px; line-height: 1.4; margin-bottom: 20px; color: #cccccc; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
+        .btn-play { background-color: white; color: black; padding: 10px 25px; border: none; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-right: 10px; transition: 0.2s; }
+        .btn-play:hover { background-color: rgba(255,255,255,0.75); }
+        
+        /* Fileiras de Conteúdo */
+        .row { padding: 30px 4% 0 4%; }
+        .row-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #e5e5e5; }
+        .row-posters { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
+        .row-posters::-webkit-scrollbar { display: none; }
+        .poster { width: 200px; height: 120px; object-fit: cover; border-radius: 4px; transition: transform 0.3s; cursor: pointer; background-color: #222; }
+        .poster:hover { transform: scale(1.08); z-index: 2; }
+    </style>
 </head>
 <body>
-    <h1>Oculus Streaming</h1>
-    <p>O site de streaming está a ser preparado!</p>
+
+    <header>
+        <div class="logo">Oculus</div>
+        <button class="btn-login">Criar Conta / Entrar</button>
+    </header>
+
+    <div class="banner">
+        <div class="banner-content">
+            <h1 class="banner-title">O Som do Amanhã</h1>
+            <p class="banner-desc">Descubra novos artistas independentes, streaming de músicas de alta qualidade e vídeos exclusivos sem interrupções. Tudo na sua nova comunidade sonora.</p>
+            <button class="btn-play">▶ Ouvir Agora</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row-title">Músicas em Alta</div>
+        <div class="row-posters">
+            <img class="poster" src="https://unsplash.com" alt="Música 1">
+            <img class="poster" src="https://unsplash.com" alt="Música 2">
+            <img class="poster" src="https://unsplash.com" alt="Música 3">
+            <img class="poster" src="https://unsplash.com" alt="Música 4">
+            <img class="poster" src="https://unsplash.com" alt="Música 5">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row-title">Novos Lançamentos (Vídeos)</div>
+        <div class="row-posters">
+            <img class="poster" src="https://unsplash.com" alt="Vídeo 1">
+            <img class="poster" src="https://unsplash.com" alt="Vídeo 2">
+            <img class="poster" src="https://unsplash.com" alt="Vídeo 3">
+            <img class="poster" src="https://unsplash.com" alt="Vídeo 4">
+            <img class="poster" src="https://unsplash.com" alt="Vídeo 5">
+        </div>
+    </div>
+
 </body>
 </html>
