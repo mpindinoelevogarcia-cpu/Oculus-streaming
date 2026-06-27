@@ -6,7 +6,7 @@
     <title>Oculus Streaming</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        body { background-color: #141414; color: #fff; overflow-x: hidden; display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 20px; }
+        body { background-color: #141414; color: #fff; display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 20px; }
         
         .container { display: flex; max-width: 1000px; width: 100%; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid #222; }
         .left-panel { flex: 1; padding: 60px; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(135deg, #141414 0%, #070707 100%); }
@@ -20,132 +20,139 @@
         .subtitle { color: #888; font-size: 13px; margin-bottom: 25px; }
         
         .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 11px; color: #aaa; margin-bottom: 6px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
-        input { width: 100%; padding: 14px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 4px; color: white; font-size: 14px; }
-        input:focus { border-color: #e50914; outline: none; }
+        label { display: block; font-size: 11px; color: #aaa; margin-bottom: 6px; text-transform: uppercase; font-weight: bold; }
+        input, select { width: 100%; padding: 14px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 4px; color: white; font-size: 14px; }
+        input:focus, select:focus { border-color: #e50914; outline: none; }
         
-        .checkbox-group { display: none; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 13px; color: #ccc; }
-        .checkbox-group input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
+        .box-instrucoes { background-color: #1c1c1c; border-left: 4px solid #e50914; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; color: #ccc; line-height: 1.4; }
         
-        .btn-submit { width: 100%; padding: 14px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; transition: 0.2s; }
+        .btn-submit { width: 100%; padding: 14px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
         .btn-submit:hover { background-color: #b80710; }
         
         .toggle-form { margin-top: 25px; text-align: center; font-size: 13px; color: #888; }
-        .toggle-link { color: #e50914; cursor: pointer; text-decoration: none; font-weight: bold; }
-        .toggle-link:hover { text-decoration: underline; }
+        .toggle-link { color: #e50914; cursor: pointer; font-weight: bold; text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Lado Esquerdo: Publicidade e Texto -->
+        <!-- Lado Esquerdo: Publicidade Fixa -->
         <div class="left-panel">
             <div class="logo">Oculus</div>
             <div class="main-title">520 prémio Conecte-se com a comunidade sonora do amanhã.</div>
             <div class="pub-space">👁️ Espaço de Publicidade Oculus</div>
         </div>
         
-        <!-- Lado Direito: Formulário Ajustado -->
+        <!-- Lado Direito: Formulários Controlados por Abas Nativas (Impossível dar erro) -->
         <div class="right-panel">
-            <h2 id="formTitle">Entrar no Oculus</h2>
-            <div id="formSubtitle" class="subtitle">Aceda à sua conta de ouvinte, artista ou painel master.</div>
             
-            <form id="loginForm">
-                <div class="form-group" id="phoneContainer" style="display: none;">
-                    <label>Número de Telefone Opcional</label>
-                    <input type="text" id="userPhone" placeholder="Ex: +244 9xx xxx xxx">
+            <!-- ABA A: FORMULÁRIO DE ENTRAR -->
+            <div id="aba-entrar">
+                <h2>Entrar no Oculus</h2>
+                <div class="subtitle">Aceda à sua conta de ouvinte, artista ou painel master.</div>
+                <form onsubmit="fazerLogin(event)">
+                    <div class="form-group">
+                        <label>E-mail ou Telemóvel</label>
+                        <input type="text" id="loginUser" required placeholder="Digite o seu e-mail ou número">
+                    </div>
+                    <div class="form-group">
+                        <label>Palavra-passe</label>
+                        <input type="password" id="loginPass" required placeholder="Digite a sua senha">
+                    </div>
+                    <button type="submit" class="btn-submit">Entrar</button>
+                </form>
+                <div class="toggle-form">
+                    Novo no Oculus? <span class="toggle-link" onclick="mudarPainel('aba-registar')">Criar nova conta</span>
                 </div>
-
-                <div class="form-group">
-                    E-mail ou Telemóvel</label>
-                    
-                </div>
-                
-                <div class="form-group">
-                    <label>Palavra-passe</label>
-                    <input type="password" id="userPassword" required placeholder="Digite a sua senha">
-                </div>
-
-                <!-- Escolha secreta para os músicos no registo -->
-                <div class="checkbox-group" id="artistCheckboxContainer">
-                    <input type="checkbox" id="isArtistProfile">
-                    <label for="isArtistProfile" style="display:inline; text-transform:none; color:#fff; cursor:pointer; font-weight:normal;">Quero criar um perfil artístico (Músico)</label>
-                </div>
-                
-                <button type="submit" class="btn-submit" id="btnAction">Entrar</button>
-            </form>
-            
-            <div class="toggle-form">
-                <span id="toggleQuestion">Novo no Oculus?</span> 
-                <span class="toggle-link" id="toggleButton" onclick="alternarTela()">Criar nova conta</span>
             </div>
+
+            <!-- ABA B: FORMULÁRIO DE REGISTAR (TUDO NUMA SÓ TELA) -->
+            <div id="aba-registar" style="display: none;">
+                <h2>Criar Conta no Oculus</h2>
+                <div class="subtitle">Preencha os seus dados profissionais e ative os 5 dias grátis.</div>
+                
+                <div class="box-instrucoes">
+                    🎁 <strong>Regra dos 5 Dias Grátis:</strong> Você tem 5 dias de teste grátis. Depois, músicos pagam 1.000 Kz / 15 dias e produtoras/blogs pagam 2.500 Kz / mês.
+                </div>
+
+                <form onsubmit="fazerRegisto(event)">
+                    <div class="form-group">
+                        <label>E-mail ou Telemóvel de Registo *</label>
+                        <input type="text" required placeholder="seuemail@exemplo.com ou 9xx xxx xxx">
+                    </div>
+                    <div class="form-group">
+                        <label>Palavra-passe * (Exatamente 11 caracteres)</label>
+                        <input type="password" id="registoPass" required placeholder="Ex: Mpindi2026@">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome Artístico ou Nome do Canal *</label>
+                        <input type="text" required placeholder="Ex: Depini Mbongo Edpmusic">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Atividade *</label>
+                        <select id="registoSegmento">
+                            <option value="independente">Músico Independente (1.000 Kz / 15 dias)</option>
+                            <option value="produtora">Produtora Musical (2.500 Kz / 1 mês)</option>
+                            <option value="blogger">Blogger / Blog de Música (2.500 Kz / 1 mês)</option>
+                            <option value="agente">Agente / Manager Artístico (2.500 Kz / 1 mês)</option>
+                            <option value="social">Social Media (2.500 Kz / 1 mês)</option>
+                            <option value="eventos">Organizador de Eventos (2.500 Kz / 1 mês)</option>
+                            <option value="ouvinte">Ouvinte Comum (Totalmente Gratuito)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>País de Origem * (Obrigatório para Sorteio)</label>
+                        <select required>
+                            <option value="Angola">Angola 🇦🇴</option>
+                            <option value="Portugal">Portugal 🇵🇹</option>
+                            <option value="Brasil">Brasil 🇧🇷</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit">Finalizar e Criar Conta</button>
+                </form>
+                <div class="toggle-form">
+                    Já tem uma conta? <span class="toggle-link" onclick="mudarPainel('aba-entrar')">Entre por aqui</span>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        let modoRegisto = false;
+        // Sistema nativo de abas que elimina qualquer erro de JavaScript na consola
+        function mudarPainel(idAba) {
+            document.getElementById('aba-entrar').style.display = 'none';
+            document.getElementById('aba-registar').style.display = 'none';
+            document.getElementById(idAba).style.display = 'block';
+        }
 
-        function alternarTela() {
-            modoRegisto = !modoRegisto;
-            const title = document.getElementById('formTitle');
-            const subtitle = document.getElementById('formSubtitle');
-            const identityLabel = document.getElementById('identityLabel');
-            const identityInput = document.getElementById('userIdentity');
-            const phoneContainer = document.getElementById('phoneContainer');
-            const artistContainer = document.getElementById('artistCheckboxContainer');
-            const btnAction = document.getElementById('btnAction');
-            const toggleQuestion = document.getElementById('toggleQuestion');
-            const toggleButton = document.getElementById('toggleButton');
+        function fazerLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUser').value.trim().toLowerCase();
+            const p = document.getElementById('loginPass').value;
 
-            if (modoRegisto) {
-                title.innerText = "Criar Conta no Oculus";
-                subtitle.innerText = "Registe-se para ouvir ou carregar as suas produções.";
-                identityLabel.innerText = "E-mail Principal";
-                identityInput.placeholder = "seuemail@exemplo.com";
-                phoneContainer.style.display = "block";
-                artistContainer.style.display = "flex";
-                btnAction.innerText = "Registar";
-                toggleQuestion.innerText = "Já tem uma conta?";
-                toggleButton.innerText = "Entre por aqui";
+            if (u === "mpindinoelevogarcia61@gmail.com" && p === "Mpindi2026@") {
+                alert("Dono autenticado com sucesso! A abrir o Painel Supremo...");
+                window.location.href = "admin.html";
             } else {
-                title.innerText = "Entrar no Oculus";
-                subtitle.innerText = "Aceda à sua conta de ouvinte, artista ou painel master.";
-                identityLabel.innerText = "E-mail ou Telemóvel";
-                identityInput.placeholder = "Digite o seu e-mail ou número";
-                phoneContainer.style.display = "none";
-                artistContainer.style.display = "none";
-                btnAction.innerText = "Entrar";
-                toggleQuestion.innerText = "Novo no Oculus?";
-                toggleButton.innerText = "Criar nova conta";
+                alert("Login efetuado com sucesso!");
+                window.location.href = "artista.html";
             }
         }
 
-        // CONTROLADOR DE LOGINS E ENTRADAS
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        function fazerRegisto(e) {
             e.preventDefault();
-            
-            const loginInput = document.getElementById('userIdentity').value.trim().toLowerCase();
-            const passwordInput = document.getElementById('userPassword').value;
-            const checkArtista = document.getElementById('isArtistProfile').checked;
+            const pass = document.getElementById('registoPass').value;
+            const seg = document.getElementById('registoSegmento').value;
 
-            if (modoRegisto) {
-                if (checkArtista) {
-                    alert("Perfil de Músico criado! A abrir o seu painel de rascunhos...");
-                    window.location.href = "artista.html";
-                } else {
-                    alert("Conta de Ouvinte criada! Faça o seu login agora.");
-                    alternarTela();
-                }
-            } else {
-                // Verificação exata do administrador
-                if (loginInput === "mpindinoelevogarcia61@gmail.com" && passwordInput === "Mpindi2026@") {
-                    alert("Dono autenticado com sucesso! A abrir o Painel Supremo...");
-                    window.location.href = "admin.html";
-                } else {
-                    alert("Login efetuado com sucesso para a área pública!");
-                }
+            if(pass.length !== 11) {
+                alert("Erro: A palavra-passe precisa ter exatamente 11 caracteres (Ex: Mpindi2026@).");
+                return;
             }
-        });
+
+            alert("Cadastro efetuado! Os seus 5 dias de teste gratuito começaram.");
+            window.location.href = seg === 'ouvinte' ? "index.html" : "artista.html";
+        }
     </script>
 </body>
 </html>
