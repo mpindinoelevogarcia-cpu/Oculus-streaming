@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming</title>
+    <!-- Script Oficial do Supabase para o site funcionar -->
+    <script src="https://jsdelivr.net"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         body { background-color: #141414; color: #fff; overflow-x: hidden; }
@@ -11,7 +13,7 @@
         /* Menu do Topo */
         header { position: fixed; top: 0; width: 100%; padding: 20px 4%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); z-index: 10; }
         .logo { font-size: 24px; font-weight: bold; color: #e50914; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-login { background-color: #e50914; color: white; padding: 7px 17px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 14px; }
+        .btn-login { background-color: #e50914; color: white; padding: 7px 17px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
         
         /* Destaque Principal */
         .banner { position: relative; height: 75vh; background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url('https://unsplash.com') no-repeat center center/cover; display: flex; align-items: center; padding: 0 4%; }
@@ -19,53 +21,97 @@
         .banner-title { font-size: 48px; font-weight: bold; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         .banner-desc { font-size: 16px; line-height: 1.4; margin-bottom: 20px; color: #cccccc; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
         .btn-play { background-color: white; color: black; padding: 10px 25px; border: none; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-right: 10px; transition: 0.2s; }
-        .btn-play:hover { background-color: rgba(255,255,255,0.75); }
         
-        /* Fileiras de Conteúdo */
+        /* Fileiras */
         .row { padding: 30px 4% 0 4%; }
         .row-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #e5e5e5; }
         .row-posters { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .row-posters::-webkit-scrollbar { display: none; }
-        .poster { width: 200px; height: 120px; object-fit: cover; border-radius: 4px; transition: transform 0.3s; cursor: pointer; background-color: #222; }
-        .poster:hover { transform: scale(1.08); z-index: 2; }
+        .poster { width: 200px; height: 120px; object-fit: cover; border-radius: 4px; background-color: #222; }
+
+        /* Janela Flutuante de Login / Registo (Modal) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background-color: #000; padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid #333; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #888; }
+        .modal h2 { margin-bottom: 20px; font-size: 24px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; }
+        .form-group input { width: 100%; padding: 12px; background-color: #333; border: none; border-radius: 4px; color: white; font-size: 14px; }
+        .form-group input:focus { outline: 1px solid #e50914; }
+        .btn-submit { width: 100%; padding: 12px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .toggle-form { margin-top: 15px; text-align: center; font-size: 14px; color: #aaa; cursor: pointer; }
+        .toggle-form span { color: #fff; text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">Oculus</div>
-        <button class="btn-login">Criar Conta / Entrar</button>
+        <button class="btn-login" onclick="abrirModal()">Criar Conta / Entrar</button>
     </header>
 
     <div class="banner">
         <div class="banner-content">
             <h1 class="banner-title">O Som do Amanhã</h1>
-            <p class="banner-desc">Descubra novos artistas independentes, streaming de músicas de alta qualidade e vídeos exclusivos sem interrupções. Tudo na sua nova comunidade sonora.</p>
+            <p class="banner-desc">Descubra novos artistas independentes, streaming de músicas de alta qualidade e vídeos exclusivos.</p>
             <button class="btn-play">▶ Ouvir Agora</button>
         </div>
     </div>
 
-    <div class="row">
-        <div class="row-title">Músicas em Alta</div>
-        <div class="row-posters">
-            <img class="poster" src="https://unsplash.com" alt="Música 1">
-            <img class="poster" src="https://unsplash.com" alt="Música 2">
-            <img class="poster" src="https://unsplash.com" alt="Música 3">
-            <img class="poster" src="https://unsplash.com" alt="Música 4">
-            <img class="poster" src="https://unsplash.com" alt="Música 5">
+    <!-- JANELA FLUTUANTE (LOGIN / REGISTO) -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fecharModal()">&times;</span>
+            <h2 id="modalTitle">Entrar</h2>
+            
+            <form id="authForm">
+                <div class="form-group" id="phoneGroup" style="display: none;">
+                    <label>Número de Telefone</label>
+                    <input type="text" id="userPhone" placeholder="Ex: +244 9xx xxx xxx">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="userEmail" required placeholder="seuemail@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Palavra-passe</label>
+                    <input type="password" id="userPassword" required placeholder="Sua senha">
+                </div>
+                <button type="submit" class="btn-submit" id="btnSubmit">Entrar</button>
+            </form>
+            
+            <div class="toggle-form" onclick="alternarFormulario()">
+                <p id="toggleText">Novo no Oculus? <span style="color: #e50914;">Registe-se agora.</span></p>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="row-title">Novos Lançamentos (Vídeos)</div>
-        <div class="row-posters">
-            <img class="poster" src="https://unsplash.com" alt="Vídeo 1">
-            <img class="poster" src="https://unsplash.com" alt="Vídeo 2">
-            <img class="poster" src="https://unsplash.com" alt="Vídeo 3">
-            <img class="poster" src="https://unsplash.com" alt="Vídeo 4">
-            <img class="poster" src="https://unsplash.com" alt="Vídeo 5">
-        </div>
-    </div>
+    <!-- Scripts de Funcionamento -->
+    <script src="supabase.js"></script>
+    <script>
+        let modoRegisto = false;
 
+        function abrirModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function fecharModal() { document.getElementById('loginModal').style.display = 'none'; }
+        
+        function alternarFormulario() {
+            modoRegisto = !modoRegisto;
+            const title = document.getElementById('modalTitle');
+            const phoneGroup = document.getElementById('phoneGroup');
+            const btnSubmit = document.getElementById('btnSubmit');
+            const toggleText = document.getElementById('toggleText');
+
+            if (modoRegisto) {
+                title.innerText = "Criar Conta";
+                phoneGroup.style.display = "block";
+                btnSubmit.innerText = "Registar";
+                toggleText.innerHTML = "Já tem conta? <span style='color: #e50914;'>Entre por aqui.</span>";
+            } else {
+                title.innerText = "Entrar";
+                phoneGroup.style.display = "none";
+                btnSubmit.innerText = "Entrar";
+                toggleText.innerHTML = "Novo no Oculus? <span style='color: #e50914;'>Registe-se agora.</span>";
+            }
+        }
+    </script>
 </body>
 </html>
