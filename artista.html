@@ -47,7 +47,7 @@
         .badge-publico { background-color: #2ecc71; color: #fff; }
         
         /* Caixa de Alerta de Notificação do Admin/Dono */
-        .notification-box { background-color: #2c3e50; border-left: 6px solid #3498db; padding: 15px; border-radius: 4px; margin-bottom: 25px; display: block; }
+        .notification-box { background-color: #2c3e50; border-left: 6px solid #3498db; padding: 15px; border-radius: 4px; margin-bottom: 25px; display: none; }
     </style>
 </head>
 <body>
@@ -65,8 +65,7 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="main-content">
         
-        <!-- Alerta de Mensagem do Dono do Site -->
-        <div class="notification-box" id="alertaAdmin" style="display: none;">
+        <div class="notification-box" id="alertaAdmin">
             <strong>🔔 Notificação do Administrador:</strong> <span id="textoNotificacao">Nenhuma advertência pendente.</span>
         </div>
 
@@ -86,7 +85,7 @@
                     <div class="card-subtitle">Biografias & Fotos</div>
                     <div class="form-group"><label>Biografia Curta (Localidade - Máx 30 Caracteres)</label><input type="text" id="pBioCurta" maxlength="30" placeholder="Ex: Rapper de Luanda, Sambizanga"></div>
                     <div class="form-group"><label>Biografia Oficial Completa (Opcional)</label><textarea id="pBioLonga" rows="5" placeholder="Conte a sua história detalhada..."></textarea></div>
-                    <div class="form-group"><label>Link da Foto de Perfil (postimages.org / postagem.com)</label><input type="url" id="pFoto" placeholder="https://postimages.org/..."></div>
+                    <div class="form-group"><label>Link da Foto de Perfil (postimages.org / postagem.com)</label><input type="url" id="pFoto" placeholder="https://postimages.org..."></div>
                 </div>
             </div>
             <div class="card">
@@ -122,7 +121,7 @@
                             </select>
                         </div>
                         <div class="form-group"><label>Link do Arquivo (Áudio Archive.org / Link Vídeo YouTube)</label><input type="text" id="uLink" required placeholder="Cole o link de partilha ou o código Iframe do YouTube"></div>
-                        <div class="form-group"><label>Link da Capa do Post (postimages.org)</label><input type="url" id="uCapa" required placeholder="https://postimages.org/..."></div>
+                        <div class="form-group"><label>Link da Capa do Post (postimages.org)</label><input type="url" id="uCapa" required placeholder="https://postimages.org..."></div>
                         <button type="submit" class="btn">Subir para os Meus Rascunhos</button>
                     </form>
                 </div>
@@ -131,3 +130,4 @@
                     <div class="card-subtitle">Agendar Novo Evento / Show</div>
                     <form id="formEvento">
                         <div class="form-group"><label>Nome do Evento</label><input type="text" placeholder="Ex: Oculus Live Festival"></div>
+                        <div class="form-group"><label>Data e Local</label><input type="text" placeholder="Ex: 15 de Outubro - Cine Atlântico"></div>
