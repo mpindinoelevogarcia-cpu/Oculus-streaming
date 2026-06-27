@@ -8,33 +8,36 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; }
         body { background-color: #0c0c0c; color: #fff; height: 100vh; display: flex; overflow: hidden; }
 
+        /* METADE ESQUERDA: ESPAÇO DE PUBLICIDADE */
         .left-side { width: 50%; background: linear-gradient(135deg, #141414 0%, #050505 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 50px; border-right: 1px solid #222; }
         .logo-master { font-size: 38px; font-weight: 900; color: #e50914; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; align-self: flex-start; }
         .promo-title { font-size: 40px; font-weight: 800; line-height: 1.1; margin-bottom: 25px; align-self: flex-start; }
         .promo-title span { color: #e50914; }
-        .promo-media-box { width: 100%; height: 380px; background-color: #141414; border-radius: 12px; border: 2px solid #222; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .promo-media-box img { width: 100%; height: 100%; object-fit: cover; }
+        .promo-media-box { width: 100%; height: 380px; background-color: #141414; border-radius: 12px; border: 2px solid #222; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .promo-media-box p { color: #888; font-weight: bold; }
 
+        /* METADE DIREITA: FORMULÁRIOS */
         .right-side { width: 50%; background-color: #0c0c0c; display: flex; justify-content: center; align-items: center; padding: 30px; overflow-y: auto; }
         .auth-container { background-color: #141414; padding: 35px; border-radius: 8px; width: 100%; max-width: 460px; border: 1px solid #222; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .auth-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #fff; }
         .subtitle-step { color: #888; font-size: 14px; margin-bottom: 20px; }
         
+        /* Controlo de exibição das Etapas */
         .form-step { display: none; }
         .form-step.active { display: block; }
         
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 11px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
         .form-group input, .form-group select { width: 100%; padding: 12px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { border-color: #e50914; outline: none; }
         
         .box-instrucoes { background-color: #1c1c1c; border-left: 4px solid #e50914; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; color: #ccc; line-height: 1.4; }
         .box-instrucoes strong { color: #fff; }
         
-        .btn-submit { width: 100%; padding: 13px; background-color: #e50914; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
+        .btn-submit { width: 100%; padding: 13px; background-color: #e50914; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; display: block; text-align: center; text-decoration: none; }
         .btn-submit:hover { background-color: #b80710; }
         
-        .toggle-form { margin-top: 20px; text-align: center; font-size: 14px; color: #aaa; cursor: pointer; }
-        .toggle-form span { color: #e50914; font-weight: bold; }
+        .toggle-link { color: #e50914; font-weight: bold; cursor: pointer; text-decoration: underline; display: inline-block; margin-top: 15px; }
 
         @media (max-width: 900px) {
             body { flex-direction: column; overflow-y: auto; height: auto; }
@@ -45,21 +48,24 @@
 </head>
 <body>
 
+    <!-- LADO ESQUERDO: ESPAÇO DE PUBLICIDADE MASTER -->
     <div class="left-side">
         <div class="logo-master">Oculus</div>
-        <h1 class="promo-title" id="promoText">Conecte-se com a <span>comunidade sonora</span> do amanhã.</h1>
+        <h1 class="promo-title">Conecte-se com a <span>comunidade sonora</span> do amanhã.</h1>
         <div class="promo-media-box">
-            <img src="https://unsplash.com" alt="Publicidade">
+            <p>👁️ Espaço de Publicidade Oculus</p>
         </div>
     </div>
 
+    <!-- LADO DIREITO: PASSOS DO CADASTRO -->
     <div class="right-side">
         <div class="auth-container">
             
+            <!-- ETAPA 1: TELA DE LOGIN (ENTRAR) -->
             <div id="step-login" class="form-step active">
                 <h2>Entrar no Oculus</h2>
                 <div class="subtitle-step">Aceda à sua conta de ouvinte, artista ou painel master.</div>
-                <form id="formLogin">
+                <form id="formLogin" onsubmit="executarLogin(event)">
                     <div class="form-group">
                         <label>E-mail ou Telemóvel</label>
                         <input type="text" id="loginUser" required placeholder="Digite o seu e-mail ou número">
@@ -70,43 +76,56 @@
                     </div>
                     <button type="submit" class="btn-submit">Entrar</button>
                 </form>
-                <div class="toggle-form" onclick="mudarFluxo('step-registo')">Novo no Oculus? <span>Criar nova conta</span></div>
+                <div style="margin-top:20px; text-align:center; font-size:14px; color:#aaa;">
+                    Novo no Oculus? <span class="toggle-link" onclick="irParaPasso('step-registo')">Criar nova conta</span>
+                </div>
             </div>
 
+            <!-- ETAPA 2: REGISTO INICIAL -->
             <div id="step-registo" class="form-step">
                 <h2>Começar no Oculus</h2>
                 <div class="subtitle-step">Crie a sua conta usando e-mail ou número de telemóvel.</div>
-                <form id="formRegisto">
+                <form id="formRegisto" onsubmit="executarProximoPasso(event)">
                     <div class="form-group">
                         <label>Escolha o formato de registo</label>
-                        <select id="registoTipoInput" onchange="ajustarCampoRegisto()">
+                        <select id="registoTipoInput" onchange="ajustarCampos()">
                             <option value="tel">Registar com Número de Telemóvel</option>
                             <option value="mail">Registar com Endereço de E-mail</option>
                         </select>
                     </div>
-                    <div class="form-group" id="box-campo-dinamico">
+                    <div class="form-group">
                         <label id="label-dinamica">Número de Telemóvel *</label>
                         <input type="text" id="registoContacto" required placeholder="Ex: 926008439">
                     </div>
                     <div class="form-group">
                         <label>Palavra-passe * (Exatamente 11 caracteres)</label>
                         <input type="password" id="registoPass" required placeholder="Ex: Mpindi2026@">
+                        <small style="color:#aaa; font-size:11px; display:block; margin-top:4px;">Use letras, números e símbolos como o @.</small>
                     </div>
                     <button type="submit" class="btn-submit">Continuar Cadastro</button>
                 </form>
-                <div class="toggle-form" onclick="mudarFluxo('step-login')">Já tem conta? <span>Entre por aqui</span></div>
+                <div style="margin-top:20px; text-align:center; font-size:14px; color:#aaa;">
+                    Já tem conta? <span class="toggle-link" onclick="irParaPasso('step-login')">Entre por aqui</span>
+                </div>
             </div>
 
+            <!-- ETAPA 3: CATEGORIAS E VALORES EM KWANZAS -->
             <div id="step-perfil" class="form-step">
                 <h2>Terminar Cadastro</h2>
                 <div class="subtitle-step">Defina o seu segmento profissional e localidade para ativar a conta.</div>
-                <div class="box-instrucoes">🎁 <strong>Regra dos 5 Dias Grátis:</strong> Você tem 5 dias de teste grátis no site.</div>
+                
+                <div class="box-instrucoes">
+                    🎁 <strong>Regra dos 5 Dias Grátis:</strong> Você tem 5 dias de teste grátis no site. Após esse período, o pagamento é obrigatório.
+                </div>
 
-                <form id="formFinal">
-                    <div class="form-group"><label>Nome Completo / Nome Artístico *</label><input type="text" id="fNome" required placeholder="Ex: Nome do Artista"></div>
+                <form id="formFinal" onsubmit="concluirCadastroCompleto(event)">
+                    <div class="form-group">
+                        <label>Nome Completo / Nome Artístico *</label>
+                        <input type="text" id="fNome" required placeholder="Ex: Depini Mbongo Edpmusic">
+                    </div>
                     <div class="form-group">
                         <label>Tipo de Conta / Atividade *</label>
-                        <select id="fSegmento" onchange="atualizarInfoPreco()">
+                        <select id="fSegmento" onchange="atualizarTextoPreco()">
                             <option value="independente">Músico Independente (1.000 Kz / 15 dias)</option>
                             <option value="produtora">Produtora Musical (2.500 Kz / 1 mês)</option>
                             <option value="blogger">Blogger / Blog de Música (2.500 Kz / 1 mês)</option>
@@ -116,7 +135,11 @@
                             <option value="ouvinte">Ouvinte Comum (Totalmente Gratuito)</option>
                         </select>
                     </div>
-                    <div class="box-instrucoes" id="infoValorPlano">💰 Investimento: <strong>1.000 Kwanzas por cada 15 dias</strong> de exibição.</div>
+                    
+                    <div class="box-instrucoes" id="infoValorPlano" style="background-color:#222; border-left-color:#2ecc71;">
+                        💰 Investimento: <strong>1.000 Kwanzas por cada 15 dias</strong> de exibição.
+                    </div>
+
                     <div class="form-group">
                         <label>País de Origem * (Obrigatório para Prémios)</label>
                         <select id="fPais" required>
@@ -126,6 +149,7 @@
                             <option value="Brasil">Brasil 🇧🇷</option>
                         </select>
                     </div>
+
                     <button type="submit" class="btn-submit">Finalizar e Concluir</button>
                 </form>
             </div>
@@ -134,29 +158,5 @@
     </div>
 
     <script>
-        function mudarFluxo(idPasso) {
-            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
-            document.getElementById(idPasso).classList.add('active');
-        }
-        function ajustarCampoRegisto() {
-            const tipo = document.getElementById('registoTipoInput').value;
-            document.getElementById('label-dinamica').innerText = tipo === 'tel' ? "Número de Telemóvel *" : "Endereço de E-mail *";
-        }
-        function atualizarInfoPreco() {
-            const seg = document.getElementById('fSegmento').value;
-            const box = document.getElementById('infoValorPlano');
-            box.innerHTML = seg === 'independente' ? "💰 Investimento: <strong>1.000 Kz / 15 dias</strong>" : (seg === 'ouvinte' ? "🎉 Gratuito" : "💰 Investimento: <strong>2.500 Kz / 1 mês</strong>");
-        }
-        function validarSenhaSegura(s) { return s.length === 11; }
-
-        document.getElementById('formRegisto').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if(!validarSenhaSegura(document.getElementById('registoPass').value)) {
-                alert("Erro: A senha precisa ter exatamente 11 caracteres!");
-                return;
-            }
-            mudarFluxo('step-perfil');
-        });
-
-        document.getElementById('formFinal').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Função direta de transição sem travas de funções
+        function irParaPasso(idPasso) {
