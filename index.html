@@ -36,17 +36,17 @@
 <body>
 
     <div class="container">
-        <!-- Lado Esquerdo: Publicidade Fixa -->
+        <!-- Lado Esquerdo: Publicidade -->
         <div class="left-panel">
             <div class="logo">Oculus</div>
-            <div class="main-title">520 prémio Conecte-se com a comunidade sonora do amanhã.</div>
+            <div class="main-title">Conecte-se com a comunidade sonora do amanhã.</div>
             <div class="pub-space">👁️ Espaço de Publicidade Oculus</div>
         </div>
         
-        <!-- Lado Direito: Formulários Controlados por Abas Nativas (Impossível dar erro) -->
+        <!-- Lado Direito: Cadastro Sem Travas -->
         <div class="right-panel">
             
-            <!-- ABA A: FORMULÁRIO DE ENTRAR -->
+            <!-- ABA 1: FORMULÁRIO DE ENTRAR -->
             <div id="aba-entrar">
                 <h2>Entrar no Oculus</h2>
                 <div class="subtitle">Aceda à sua conta de ouvinte, artista ou painel master.</div>
@@ -66,27 +66,27 @@
                 </div>
             </div>
 
-            <!-- ABA B: FORMULÁRIO DE REGISTAR (TUDO NUMA SÓ TELA) -->
+            <!-- ABA 2: FORMULÁRIO DE REGISTAR -->
             <div id="aba-registar" style="display: none;">
                 <h2>Criar Conta no Oculus</h2>
-                <div class="subtitle">Preencha os seus dados profissionais e ative os 5 dias grátis.</div>
+                <div class="subtitle">Preencha os seus dados e comece agora os 5 dias grátis.</div>
                 
                 <div class="box-instrucoes">
-                    🎁 <strong>Regra dos 5 Dias Grátis:</strong> Você tem 5 dias de teste grátis. Depois, músicos pagam 1.000 Kz / 15 dias e produtoras/blogs pagam 2.500 Kz / mês.
+                    🎁 <strong>Regra dos 5 Dias Grátis:</strong> Teste gratuito ativado. Após o prazo, músicos pagam 1.000 Kz/15 dias e restantes pagam 2.500 Kz/mês.
                 </div>
 
                 <form onsubmit="fazerRegisto(event)">
                     <div class="form-group">
                         <label>E-mail ou Telemóvel de Registo *</label>
-                        <input type="text" required placeholder="seuemail@exemplo.com ou 9xx xxx xxx">
+                        <input type="text" required placeholder="Ex: seuemail@exemplo.com ou 9xx xxx xxx">
                     </div>
                     <div class="form-group">
-                        <label>Palavra-passe * (Exatamente 11 caracteres)</label>
-                        <input type="password" id="registoPass" required placeholder="Ex: Mpindi2026@">
+                        <label>Palavra-passe *</label>
+                        <input type="password" required placeholder="Crie a sua senha livremente">
                     </div>
                     <div class="form-group">
                         <label>Nome Artístico ou Nome do Canal *</label>
-                        <input type="text" required placeholder="Ex: Depini Mbongo Edpmusic">
+                        <input type="text" id="registoNome" required placeholder="Mete qualquer nome artístico que quiseres">
                     </div>
                     <div class="form-group">
                         <label>Tipo de Atividade *</label>
@@ -119,7 +119,6 @@
     </div>
 
     <script>
-        // Sistema nativo de abas que elimina qualquer erro de JavaScript na consola
         function mudarPainel(idAba) {
             document.getElementById('aba-entrar').style.display = 'none';
             document.getElementById('aba-registar').style.display = 'none';
@@ -136,21 +135,21 @@
                 window.location.href = "admin.html";
             } else {
                 alert("Login efetuado com sucesso!");
+                // Simula nome padrão se entrar direto sem se cadastrar antes
+                localStorage.setItem('oculus_nome_artista', "Depini Mbongo Edpmusic");
                 window.location.href = "artista.html";
             }
         }
 
         function fazerRegisto(e) {
             e.preventDefault();
-            const pass = document.getElementById('registoPass').value;
+            const nomeArtista = document.getElementById('registoNome').value.trim();
             const seg = document.getElementById('registoSegmento').value;
 
-            if(pass.length !== 11) {
-                alert("Erro: A palavra-passe precisa ter exatamente 11 caracteres (Ex: Mpindi2026@).");
-                return;
-            }
+            // MEMÓRIA VIVA: Guarda o nome real que o músico digitou para mostrar no perfil dele
+            localStorage.setItem('oculus_nome_artista', nomeArtista);
 
-            alert("Cadastro efetuado! Os seus 5 dias de teste gratuito começaram.");
+            alert("Cadastro efetuado com sucesso! Os seus 5 dias de teste gratuito começaram.");
             window.location.href = seg === 'ouvinte' ? "index.html" : "artista.html";
         }
     </script>
