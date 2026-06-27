@@ -26,11 +26,10 @@
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #888; }
         .modal h2 { margin-bottom: 20px; font-size: 24px; }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; }
+        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
         .form-group input { width: 100%; padding: 12px; background-color: #333; border: none; border-radius: 4px; color: white; font-size: 14px; }
         .form-group input:focus { outline: 1px solid #e50914; }
         
-        /* Caixa de seleção do tipo de conta */
         .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 14px; color: #ccc; }
         .checkbox-group input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
         
@@ -73,7 +72,6 @@
                     <input type="password" id="userPassword" required placeholder="Sua senha">
                 </div>
                 
-                <!-- Opção exclusiva para seleção de conta de Artista -->
                 <div class="checkbox-group" id="artistGroup" style="display: none;">
                     <input type="checkbox" id="isArtist">
                     <label for="isArtist" style="display:inline; text-transform:none; color:#fff; cursor:pointer;">Quero criar um perfil artístico (Músico)</label>
@@ -125,25 +123,24 @@
             const checkArtista = document.getElementById('isArtist').checked;
 
             if (modoRegisto) {
-                // Se a caixa de artista estiver marcada, simula o perfil e envia-o para lá [1]
                 if (checkArtista) {
-                    alert("Perfil Artístico criado com sucesso! A redirecionar para a sua área de upload...");
+                    alert("Perfil Artístico criado com sucesso! A redirecionar para o Oculus Studio...");
                     fecharModal();
-                    window.location.href = "artista.html"; // Vai para a área do músico [1]
+                    window.location.href = "artista.html";
                 } else {
-                    alert("Conta de Ouvinte criada com sucesso! Já pode fazer login.");
-                    alternarFormulario();
+                    alert("Conta de Ouvinte criada com sucesso! Redirecionando para a área musical...");
+                    fecharModal();
                 }
             } else {
-                // Autenticação do Dono Master
-                if (email === "mpindinoelevogarcia@gmail.com" && password === "Mpindi2026@") {
-                    alert("Dono autenticado com sucesso!");
+                // REDIRECIONAMENTO INTELIGENTE POR TIPO DE E-MAIL
+                if (email === "mpindinoelevogarcia@gmail.com") {
+                    alert("Dono Master autenticado com sucesso!");
                     fecharModal();
-                    window.location.href = "admin.html";
+                    window.location.href = "admin.html"; // Vai para o Painel Secreto do Dono
                 } else {
-                    // Simulação para login rápido de artistas já de teste
-                    alert("Login efetuado com sucesso!");
+                    alert("Artista autenticado com sucesso!");
                     fecharModal();
+                    window.location.href = "artista.html"; // ENTRADA AUTOMÁTICA NO OCULUS STUDIO
                 }
             }
         });
