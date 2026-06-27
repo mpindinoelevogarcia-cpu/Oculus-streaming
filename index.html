@@ -22,19 +22,18 @@
         .auth-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #fff; }
         .subtitle-step { color: #888; font-size: 14px; margin-bottom: 20px; }
         
-        /* Controlo de exibição das Etapas */
+        /* Controlo Simples de Abas */
         .form-step { display: none; }
         .form-step.active { display: block; }
         
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 11px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
         .form-group input, .form-group select { width: 100%; padding: 12px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 14px; }
-        .form-group input:focus, .form-group select:focus { border-color: #e50914; outline: none; }
         
         .box-instrucoes { background-color: #1c1c1c; border-left: 4px solid #e50914; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; color: #ccc; line-height: 1.4; }
         .box-instrucoes strong { color: #fff; }
         
-        .btn-submit { width: 100%; padding: 13px; background-color: #e50914; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; display: block; text-align: center; text-decoration: none; }
+        .btn-submit { width: 100%; padding: 13px; background-color: #e50914; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; display: block; text-align: center; text-decoration: none; }
         .btn-submit:hover { background-color: #b80710; }
         
         .toggle-link { color: #e50914; font-weight: bold; cursor: pointer; text-decoration: underline; display: inline-block; margin-top: 15px; }
@@ -48,7 +47,7 @@
 </head>
 <body>
 
-    <!-- LADO ESQUERDO: ESPAÇO DE PUBLICIDADE MASTER -->
+    <!-- LADO ESQUERDO: ESPAÇO DE PUBLICIDADE -->
     <div class="left-side">
         <div class="logo-master">Oculus</div>
         <h1 class="promo-title">Conecte-se com a <span>comunidade sonora</span> do amanhã.</h1>
@@ -57,59 +56,52 @@
         </div>
     </div>
 
-    <!-- LADO DIREITO: PASSOS DO CADASTRO -->
+    <!-- LADO DIREITO: FORMULÁRIOS INTERNOS NATIVOS -->
     <div class="right-side">
         <div class="auth-container">
             
-            <!-- ETAPA 1: TELA DE LOGIN (ENTRAR) -->
+            <!-- SEÇÃO 1: LOGIN (ENTRAR) -->
             <div id="step-login" class="form-step active">
                 <h2>Entrar no Oculus</h2>
                 <div class="subtitle-step">Aceda à sua conta de ouvinte, artista ou painel master.</div>
-                <form id="formLogin" onsubmit="executarLogin(event)">
+                <form onsubmit="realizarLogin(event)">
                     <div class="form-group">
                         <label>E-mail ou Telemóvel</label>
-                        <input type="text" id="loginUser" required placeholder="Digite o seu e-mail ou número">
+                        <input type="text" id="lUser" required placeholder="Digite o seu e-mail ou número">
                     </div>
                     <div class="form-group">
                         <label>Palavra-passe</label>
-                        <input type="password" id="loginPass" required placeholder="Digite a sua senha">
+                        <input type="password" id="lPass" required placeholder="Digite a sua senha">
                     </div>
                     <button type="submit" class="btn-submit">Entrar</button>
                 </form>
                 <div style="margin-top:20px; text-align:center; font-size:14px; color:#aaa;">
-                    Novo no Oculus? <span class="toggle-link" onclick="irParaPasso('step-registo')">Criar nova conta</span>
+                    Novo no Oculus? <span class="toggle-link" onclick="abrirAba('step-registo')">Criar nova conta</span>
                 </div>
             </div>
 
-            <!-- ETAPA 2: REGISTO INICIAL -->
+            <!-- SEÇÃO 2: REGISTO INICIAL -->
             <div id="step-registo" class="form-step">
                 <h2>Começar no Oculus</h2>
                 <div class="subtitle-step">Crie a sua conta usando e-mail ou número de telemóvel.</div>
-                <form id="formRegisto" onsubmit="executarProximoPasso(event)">
+                <form onsubmit="irParaPerfil(event)">
                     <div class="form-group">
-                        <label>Escolha o formato de registo</label>
-                        <select id="registoTipoInput" onchange="ajustarCampos()">
-                            <option value="tel">Registar com Número de Telemóvel</option>
-                            <option value="mail">Registar com Endereço de E-mail</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label id="label-dinamica">Número de Telemóvel *</label>
-                        <input type="text" id="registoContacto" required placeholder="Ex: 926008439">
+                        <label>Contacto de Registo *</label>
+                        <input type="text" required placeholder="E-mail ou número de telemóvel">
                     </div>
                     <div class="form-group">
                         <label>Palavra-passe * (Exatamente 11 caracteres)</label>
-                        <input type="password" id="registoPass" required placeholder="Ex: Mpindi2026@">
-                        <small style="color:#aaa; font-size:11px; display:block; margin-top:4px;">Use letras, números e símbolos como o @.</small>
+                        <input type="password" id="rPass" required placeholder="Ex: Mpindi2026@">
+                        <small style="color:#aaa; font-size:11px; display:block; margin-top:4px;">A senha deve conter letras, números e símbolos como o @.</small>
                     </div>
                     <button type="submit" class="btn-submit">Continuar Cadastro</button>
                 </form>
                 <div style="margin-top:20px; text-align:center; font-size:14px; color:#aaa;">
-                    Já tem conta? <span class="toggle-link" onclick="irParaPasso('step-login')">Entre por aqui</span>
+                    Já tem conta? <span class="toggle-link" onclick="abrirAba('step-login')">Entre por aqui</span>
                 </div>
             </div>
 
-            <!-- ETAPA 3: CATEGORIAS E VALORES EM KWANZAS -->
+            <!-- SEÇÃO 3: SELEÇÃO DE CATEGORIAS EM KWANZAS -->
             <div id="step-perfil" class="form-step">
                 <h2>Terminar Cadastro</h2>
                 <div class="subtitle-step">Defina o seu segmento profissional e localidade para ativar a conta.</div>
@@ -118,14 +110,14 @@
                     🎁 <strong>Regra dos 5 Dias Grátis:</strong> Você tem 5 dias de teste grátis no site. Após esse período, o pagamento é obrigatório.
                 </div>
 
-                <form id="formFinal" onsubmit="concluirCadastroCompleto(event)">
+                <form onsubmit="finalizarTudo(event)">
                     <div class="form-group">
                         <label>Nome Completo / Nome Artístico *</label>
-                        <input type="text" id="fNome" required placeholder="Ex: Depini Mbongo Edpmusic">
+                        <input type="text" required placeholder="Ex: Depini Mbongo Edpmusic">
                     </div>
                     <div class="form-group">
                         <label>Tipo de Conta / Atividade *</label>
-                        <select id="fSegmento" onchange="atualizarTextoPreco()">
+                        <select id="fSegmento" onchange="mudarPrecoTexto()">
                             <option value="independente">Músico Independente (1.000 Kz / 15 dias)</option>
                             <option value="produtora">Produtora Musical (2.500 Kz / 1 mês)</option>
                             <option value="blogger">Blogger / Blog de Música (2.500 Kz / 1 mês)</option>
@@ -142,8 +134,7 @@
 
                     <div class="form-group">
                         <label>País de Origem * (Obrigatório para Prémios)</label>
-                        <select id="fPais" required>
-                            <option value="">-- Selecione o seu País --</option>
+                        <select required>
                             <option value="Angola">Angola 🇦🇴</option>
                             <option value="Portugal">Portugal 🇵🇹</option>
                             <option value="Brasil">Brasil 🇧🇷</option>
@@ -157,7 +148,20 @@
         </div>
     </div>
 
-    <!-- SCRIPT CENTRAL TOTALMENTE ISOLADO -->
     <script>
-        function irParaPasso(idPasso) {
+        // Função ultrarrápida nativa para mudar de aba
+        function abrirAba(id) {
             document.getElementById('step-login').style.display = 'none';
+            document.getElementById('step-registo').style.display = 'none';
+            document.getElementById('step-perfil').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function mudarPrecoTexto() {
+            const val = document.getElementById('fSegmento').value;
+            const box = document.getElementById('infoValorPlano');
+            if(val === 'independente') {
+                box.innerHTML = "💰 Investimento: <strong>1.000 Kwanzas por cada 15 dias</strong>.";
+            } else if(val === 'ouvinte') {
+                box.innerHTML = "🎉 Investimento: <strong>Conta de Ouvinte Gratuita</strong>.";
+            } else {
