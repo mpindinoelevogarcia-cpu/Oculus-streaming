@@ -3,147 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oculus Streaming</title>
+    <title>Oculus Streaming - Entrar ou Registar</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        body { background-color: #141414; color: #fff; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; }
+        body { background-color: #0c0c0c; color: #fff; height: 100vh; display: flex; overflow: hidden; }
+
+        .left-side { width: 50%; background: linear-gradient(135deg, #141414 0%, #050505 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 50px; border-right: 1px solid #222; }
+        .logo-master { font-size: 38px; font-weight: 900; color: #e50914; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; align-self: flex-start; }
+        .promo-title { font-size: 40px; font-weight: 800; line-height: 1.1; margin-bottom: 25px; align-self: flex-start; }
+        .promo-title span { color: #e50914; }
+        .promo-media-box { width: 100%; height: 380px; background-color: #141414; border-radius: 12px; border: 2px solid #222; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .promo-media-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .right-side { width: 50%; background-color: #0c0c0c; display: flex; justify-content: center; align-items: center; padding: 30px; overflow-y: auto; }
+        .auth-container { background-color: #141414; padding: 35px; border-radius: 8px; width: 100%; max-width: 460px; border: 1px solid #222; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .auth-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #fff; }
+        .subtitle-step { color: #888; font-size: 14px; margin-bottom: 20px; }
         
-        /* Menu do Topo */
-        header { position: fixed; top: 0; width: 100%; padding: 20px 4%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); z-index: 10; }
-        .logo { font-size: 24px; font-weight: bold; color: #e50914; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-login { background-color: #e50914; color: white; padding: 7px 17px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .form-step { display: none; }
+        .form-step.active { display: block; }
         
-        /* Destaque Principal */
-        .banner { position: relative; height: 75vh; background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url('https://unsplash.com') no-repeat center center/cover; display: flex; align-items: center; padding: 0 4%; }
-        .banner-content { max-width: 600px; }
-        .banner-title { font-size: 48px; font-weight: bold; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .banner-desc { font-size: 16px; line-height: 1.4; margin-bottom: 20px; color: #cccccc; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
-        .btn-play { background-color: white; color: black; padding: 10px 25px; border: none; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-right: 10px; transition: 0.2s; }
-        
-        /* Janela Flutuante de Login / Registo */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; }
-        .modal-content { background-color: #000; padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid #333; position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #888; }
-        .modal h2 { margin-bottom: 20px; font-size: 24px; }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        .form-group input { width: 100%; padding: 12px; background-color: #333; border: none; border-radius: 4px; color: white; font-size: 14px; }
-        .form-group input:focus { outline: 1px solid #e50914; }
+        .form-group label { display: block; font-size: 11px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 6px; color: white; font-size: 14px; }
         
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 14px; color: #ccc; }
-        .checkbox-group input { width: 18px; height: 18px; accent-color: #e50914; cursor: pointer; }
+        .box-instrucoes { background-color: #1c1c1c; border-left: 4px solid #e50914; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; color: #ccc; line-height: 1.4; }
+        .box-instrucoes strong { color: #fff; }
         
-        .btn-submit { width: 100%; padding: 12px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        .toggle-form { margin-top: 15px; text-align: center; font-size: 14px; color: #aaa; cursor: pointer; }
+        .btn-submit { width: 100%; padding: 13px; background-color: #e50914; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
+        .btn-submit:hover { background-color: #b80710; }
+        
+        .toggle-form { margin-top: 20px; text-align: center; font-size: 14px; color: #aaa; cursor: pointer; }
+        .toggle-form span { color: #e50914; font-weight: bold; }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; overflow-y: auto; height: auto; }
+            .left-side, .right-side { width: 100%; height: auto; padding: 25px 15px; }
+            .promo-media-box { height: 220px; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">Oculus</div>
-        <button class="btn-login" onclick="abrirModal()">Criar Conta / Entrar</button>
-    </header>
-
-    <div class="banner">
-        <div class="banner-content">
-            <h1 class="banner-title">O Som do Amanhã</h1>
-            <p class="banner-desc">Descubra novos artistas independentes, streaming de músicas de alta qualidade e vídeos exclusivos.</p>
-            <button class="btn-play">▶ Ouvir Agora</button>
+    <div class="left-side">
+        <div class="logo-master">Oculus</div>
+        <h1 class="promo-title" id="promoText">Conecte-se com a <span>comunidade sonora</span> do amanhã.</h1>
+        <div class="promo-media-box">
+            <img src="https://unsplash.com" alt="Publicidade">
         </div>
     </div>
 
-    <!-- JANELA FLUTUANTE DE AUTENTICAÇÃO -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="fecharModal()">&times;</span>
-            <h2 id="modalTitle">Entrar</h2>
+    <div class="right-side">
+        <div class="auth-container">
             
-            <form id="authForm">
-                <div class="form-group" id="phoneGroup" style="display: none;">
-                    <label>Número de Telefone</label>
-                    <input type="text" id="userPhone" placeholder="Ex: +244 9xx xxx xxx">
-                </div>
-                <div class="form-group">
-                    <label>E-mail</label>
-                    <input type="email" id="userEmail" required placeholder="seuemail@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Palavra-passe</label>
-                    <input type="password" id="userPassword" required placeholder="Sua senha">
-                </div>
-                
-                <div class="checkbox-group" id="artistGroup" style="display: none;">
-                    <input type="checkbox" id="isArtist">
-                    <label for="isArtist" style="display:inline; text-transform:none; color:#fff; cursor:pointer;">Quero criar um perfil artístico (Músico)</label>
-                </div>
-                
-                <button type="submit" class="btn-submit" id="btnSubmit">Entrar</button>
-            </form>
-            
-            <div class="toggle-form" onclick="alternarFormulario()">
-                <p id="toggleText">Novo no Oculus? <span style="color: #e50914;">Registe-se agora.</span></p>
+            <div id="step-login" class="form-step active">
+                <h2>Entrar no Oculus</h2>
+                <div class="subtitle-step">Aceda à sua conta de ouvinte, artista ou painel master.</div>
+                <form id="formLogin">
+                    <div class="form-group">
+                        <label>E-mail ou Telemóvel</label>
+                        <input type="text" id="loginUser" required placeholder="Digite o seu e-mail ou número">
+                    </div>
+                    <div class="form-group">
+                        <label>Palavra-passe</label>
+                        <input type="password" id="loginPass" required placeholder="Digite a sua senha">
+                    </div>
+                    <button type="submit" class="btn-submit">Entrar</button>
+                </form>
+                <div class="toggle-form" onclick="mudarFluxo('step-registo')">Novo no Oculus? <span>Criar nova conta</span></div>
             </div>
+
+            <div id="step-registo" class="form-step">
+                <h2>Começar no Oculus</h2>
+                <div class="subtitle-step">Crie a sua conta usando e-mail ou número de telemóvel.</div>
+                <form id="formRegisto">
+                    <div class="form-group">
+                        <label>Escolha o formato de registo</label>
+                        <select id="registoTipoInput" onchange="ajustarCampoRegisto()">
+                            <option value="tel">Registar com Número de Telemóvel</option>
+                            <option value="mail">Registar com Endereço de E-mail</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="box-campo-dinamico">
+                        <label id="label-dinamica">Número de Telemóvel *</label>
+                        <input type="text" id="registoContacto" required placeholder="Ex: 926008439">
+                    </div>
+                    <div class="form-group">
+                        <label>Palavra-passe * (Exatamente 11 caracteres)</label>
+                        <input type="password" id="registoPass" required placeholder="Ex: Mpindi2026@">
+                    </div>
+                    <button type="submit" class="btn-submit">Continuar Cadastro</button>
+                </form>
+                <div class="toggle-form" onclick="mudarFluxo('step-login')">Já tem conta? <span>Entre por aqui</span></div>
+            </div>
+
+            <div id="step-perfil" class="form-step">
+                <h2>Terminar Cadastro</h2>
+                <div class="subtitle-step">Defina o seu segmento profissional e localidade para ativar a conta.</div>
+                <div class="box-instrucoes">🎁 <strong>Regra dos 5 Dias Grátis:</strong> Você tem 5 dias de teste grátis no site.</div>
+
+                <form id="formFinal">
+                    <div class="form-group"><label>Nome Completo / Nome Artístico *</label><input type="text" id="fNome" required placeholder="Ex: Nome do Artista"></div>
+                    <div class="form-group">
+                        <label>Tipo de Conta / Atividade *</label>
+                        <select id="fSegmento" onchange="atualizarInfoPreco()">
+                            <option value="independente">Músico Independente (1.000 Kz / 15 dias)</option>
+                            <option value="produtora">Produtora Musical (2.500 Kz / 1 mês)</option>
+                            <option value="blogger">Blogger / Blog de Música (2.500 Kz / 1 mês)</option>
+                            <option value="agente">Agente / Manager Artístico (2.500 Kz / 1 mês)</option>
+                            <option value="social">Social Media (2.500 Kz / 1 mês)</option>
+                            <option value="eventos">Organizador de Eventos (2.500 Kz / 1 mês)</option>
+                            <option value="ouvinte">Ouvinte Comum (Totalmente Gratuito)</option>
+                        </select>
+                    </div>
+                    <div class="box-instrucoes" id="infoValorPlano">💰 Investimento: <strong>1.000 Kwanzas por cada 15 dias</strong> de exibição.</div>
+                    <div class="form-group">
+                        <label>País de Origem * (Obrigatório para Prémios)</label>
+                        <select id="fPais" required>
+                            <option value="">-- Selecione o seu País --</option>
+                            <option value="Angola">Angola 🇦🇴</option>
+                            <option value="Portugal">Portugal 🇵🇹</option>
+                            <option value="Brasil">Brasil 🇧🇷</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit">Finalizar e Concluir</button>
+                </form>
+            </div>
+
         </div>
     </div>
 
     <script>
-        let modoRegisto = false;
-
-        function abrirModal() { document.getElementById('loginModal').style.display = 'flex'; }
-        function fecharModal() { document.getElementById('loginModal').style.display = 'none'; }
-        
-        function alternarFormulario() {
-            modoRegisto = !modoRegisto;
-            const title = document.getElementById('modalTitle');
-            const phoneGroup = document.getElementById('phoneGroup');
-            const artistGroup = document.getElementById('artistGroup');
-            const btnSubmit = document.getElementById('btnSubmit');
-            const toggleText = document.getElementById('toggleText');
-
-            if (modoRegisto) {
-                title.innerText = "Criar Conta";
-                phoneGroup.style.display = "block";
-                artistGroup.style.display = "flex";
-                btnSubmit.innerText = "Registar";
-                toggleText.innerHTML = "Já tem conta? <span style='color: #e50914;'>Entre por aqui.</span>";
-            } else {
-                title.innerText = "Entrar";
-                phoneGroup.style.display = "none";
-                artistGroup.style.display = "none";
-                btnSubmit.innerText = "Entrar";
-                toggleText.innerHTML = "Novo no Oculus? <span style='color: #e50914;'>Registe-se agora.</span>";
-            }
+        function mudarFluxo(idPasso) {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(idPasso).classList.add('active');
         }
+        function ajustarCampoRegisto() {
+            const tipo = document.getElementById('registoTipoInput').value;
+            document.getElementById('label-dinamica').innerText = tipo === 'tel' ? "Número de Telemóvel *" : "Endereço de E-mail *";
+        }
+        function atualizarInfoPreco() {
+            const seg = document.getElementById('fSegmento').value;
+            const box = document.getElementById('infoValorPlano');
+            box.innerHTML = seg === 'independente' ? "💰 Investimento: <strong>1.000 Kz / 15 dias</strong>" : (seg === 'ouvinte' ? "🎉 Gratuito" : "💰 Investimento: <strong>2.500 Kz / 1 mês</strong>");
+        }
+        function validarSenhaSegura(s) { return s.length === 11; }
 
-        document.getElementById('authForm').addEventListener('submit', function(e) {
+        document.getElementById('formRegisto').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const email = document.getElementById('userEmail').value.trim().toLowerCase();
-            const password = document.getElementById('userPassword').value;
-            const checkArtista = document.getElementById('isArtist').checked;
-
-            if (modoRegisto) {
-                if (checkArtista) {
-                    alert("Perfil Artístico criado com sucesso! A redirecionar para o Oculus Studio...");
-                    fecharModal();
-                    window.location.href = "artista.html";
-                } else {
-                    alert("Conta de Ouvinte criada com sucesso! Redirecionando para a área musical...");
-                    fecharModal();
-                }
-            } else {
-                // REDIRECIONAMENTO INTELIGENTE POR TIPO DE E-MAIL
-                if (email === "mpindinoelevogarcia@gmail.com") {
-                    alert("Dono Master autenticado com sucesso!");
-                    fecharModal();
-                    window.location.href = "admin.html"; // Vai para o Painel Secreto do Dono
-                } else {
-                    alert("Artista autenticado com sucesso!");
-                    fecharModal();
-                    window.location.href = "artista.html"; // ENTRADA AUTOMÁTICA NO OCULUS STUDIO
-                }
+            if(!validarSenhaSegura(document.getElementById('registoPass').value)) {
+                alert("Erro: A senha precisa ter exatamente 11 caracteres!");
+                return;
             }
+            mudarFluxo('step-perfil');
         });
-    </script>
-</body>
-</html>
+
+        document.getElementById('formFinal').addEventListener('submit', function(e) {
+            e.preventDefault();
