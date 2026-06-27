@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming</title>
-    <!-- Script Oficial do Supabase para o site funcionar -->
+    <!-- Script Oficial do Supabase para o funcionamento do banco de dados -->
     <script src="https://jsdelivr.net"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -22,7 +22,7 @@
         .banner-desc { font-size: 16px; line-height: 1.4; margin-bottom: 20px; color: #cccccc; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); }
         .btn-play { background-color: white; color: black; padding: 10px 25px; border: none; border-radius: 4px; font-size: 18px; font-weight: bold; cursor: pointer; margin-right: 10px; transition: 0.2s; }
         
-        /* Fileiras */
+        /* Fileiras de Músicas e Vídeos */
         .row { padding: 30px 4% 0 4%; }
         .row-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #e5e5e5; }
         .row-posters { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
@@ -39,7 +39,6 @@
         .form-group input:focus { outline: 1px solid #e50914; }
         .btn-submit { width: 100%; padding: 12px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .toggle-form { margin-top: 15px; text-align: center; font-size: 14px; color: #aaa; cursor: pointer; }
-        .toggle-form span { color: #fff; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -85,7 +84,7 @@
         </div>
     </div>
 
-    <!-- Scripts de Funcionamento -->
+    <!-- CARREGAMENTO DOS SCRIPTS -->
     <script src="supabase.js"></script>
     <script>
         let modoRegisto = false;
@@ -112,6 +111,51 @@
                 toggleText.innerHTML = "Novo no Oculus? <span style='color: #e50914;'>Registe-se agora.</span>";
             }
         }
+
+        // CONEXÃO COM O SUPABASE CONFIGURADO
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            const phone = document.getElementById('userPhone').value;
+
+            if (modoRegisto) {
+                // Criar conta na Base de Dados
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: { phone_number: phone }
+                    }
+                });
+
+                if (error) {
+                    alert("Erro ao criar conta: " + error.message);
+                } else {
+                    alert("Conta criada com sucesso! Já pode fazer login.");
+                    fecharModal();
+                }
+            } else {
+                // Entrar na conta existente
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    alert("Erro ao entrar: " + error.message);
+                } else {
+                    alert("Conectado com sucesso!");
+                    fecharModal();
+                    
+                    // Redirecionamento automático do Dono do site
+                    if (email.trim().toLowerCase() === "mpindinoelevogarcia@gmail.com") {
+                        window.location.href = "admin.html";
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>
