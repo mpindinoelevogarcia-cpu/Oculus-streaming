@@ -4,125 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming - Muzik 520</title>
-    <style>
-        /* DESIGN ABSOLUTO ESTILO FACEBOOK CLÁSSICO */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif; }
-        body { background-color: #F0F2F5; color: #1C1E21; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        
-        .hidden { display: none !important; }
-        
-        /* Banner de Sucesso */
-        #top-success-ribbon { position: fixed; top: 0; left: 0; right: 0; background-color: #00A400; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 16px; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        
-        /* Contentor Split-Screen */
-        .split-container { display: flex; flex-direction: row; max-width: 1000px; width: 100%; gap: 60px; align-items: center; justify-content: center; }
-        
-        /* Lado Esquerdo - Marca */
-        .left-box { flex: 1; max-width: 500px; }
-        .left-box h1 { color: #1877F2; font-size: 60px; font-weight: bold; letter-spacing: -2px; margin-bottom: 12px; font-family: Helvetica, Arial, sans-serif; }
-        .left-box p { font-size: 24px; font-weight: normal; line-height: 28px; margin-bottom: 30px; color: #1C1E21; width: 100%; word-break: break-word; }
-        
-        /* Grelha de Artistas */
-        .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 360px; }
-        .avatar-slot { aspect-ratio: 1/1; background-color: #FFFFFF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #606770; border: 1px solid #CCD0D5; box-shadow: 0 1px 2px rgba(0,0,0,0.1); text-transform: uppercase; }
-        
-        /* Lado Direito - Caixa de Registo Branca */
-        .right-box { width: 432px; background-color: #FFFFFF; padding: 16px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1); border: 1px solid #DEE1E6; }
-        
-        /* Campos de Entrada */
-        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-        .input-field { width: 100%; padding: 11px; border: 1px solid #CCD0D5; border-radius: 6px; background-color: #F5F6F7; font-size: 15px; outline: none; margin-bottom: 12px; color: #1C1E21; }
-        .input-field:focus { border-color: #1877F2; background-color: #FFFFFF; box-shadow: 0 0 0 2px #E7F3FF; }
-        
-        /* Medidor Clínico de Senha */
-        .feedback-label { font-size: 13px; font-weight: 600; margin-top: -6px; margin-bottom: 14px; }
-        .text-weak { color: #ECE911; background-color: #FEE2E2; border: 1px solid #FCA5A5; padding: 6px; border-radius: 4px; color: #DC2626; }
-        .text-strong { color: #10B981; background-color: #D1FAE5; border: 1px solid #6EE7B7; padding: 6px; border-radius: 4px; color: #059669; }
-        
-        /* Secções de Data e Género */
-        .section-title { font-size: 12px; color: #606770; font-weight: bold; margin-bottom: 6px; display: block; }
-        
-        /* Correção Absoluta dos Selects de Data */
-        .select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-        .select-grid select { width: 100%; padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; background-color: #FFFFFF; font-size: 15px; outline: none; cursor: pointer; color: #1C1E21; height: 40px; }
-        
-        /* Grelha de Rádios de Género */
-        .radio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-        .radio-label { padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; background-color: #FFFFFF; font-size: 15px; cursor: pointer; color: #1C1E21; height: 40px; }
-        .radio-label input { width: 16px; height: 16px; cursor: pointer; }
-        
-        /* Botão Verde Oficial de Criar Conta */
-        .btn-submit { width: 100%; background-color: #00A400; color: #FFFFFF; border: none; padding: 10px; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background-color 0.2s ease; text-align: center; }
-        .btn-submit:hover { background-color: #008C00; }
-        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; background-color: #79C779; }
-
-        /* Tela de Bloqueio Amarela */
-        .yellow-screen { min-height: 100vh; width: 100vw; background-color: #FFFBEB; display: flex; align-items: center; justify-content: center; padding: 20px; position: fixed; top: 0; left: 0; z-index: 500; }
-        .freeze-card { max-width: 460px; width: 100%; background-color: #FFFFFF; padding: 30px; border-radius: 8px; border: 2px solid #FBBF24; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; }
-        .freeze-icon { width: 60px; height: 60px; background-color: #FEF3C7; color: #D97706; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; margin: 0 auto 16px auto; }
-        .freeze-card h2 { font-size: 22px; font-weight: 800; color: #1F2937; margin-bottom: 12px; }
-        .freeze-card p { color: #4B5563; font-weight: 500; font-size: 15px; line-height: 22px; margin-bottom: 24px; }
-        .freeze-link { color: #1877F2; font-weight: bold; text-decoration: none; font-size: 14px; }
-        .freeze-link:hover { text-decoration: underline; }
-        .btn-bypass { margin-top: 24px; background-color: #F3F4F6; border: 1px solid #D1D5DB; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: bold; color: #374151; cursor: pointer; width: 100%; }
-        .btn-bypass:hover { background-color: #E5E7EB; }
-
-        /* Interface de Ativação */
-        .activation-screen { min-height: 100vh; width: 100vw; background-color: #F0F2F5; display: flex; align-items: center; justify-content: center; padding: 40px 20px; position: fixed; top: 0; left: 0; z-index: 600; overflow-y: auto; }
-        .activation-card { max-width: 680px; width: 100%; background-color: #FFFFFF; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #E5E7EB; }
-        .activation-card h2 { font-size: 24px; font-weight: 800; color: #1F2937; border-bottom: 1px solid #E5E7EB; padding-bottom: 12px; margin-bottom: 14px; }
-        .activation-card .bio-text { font-size: 14px; color: #4B5563; line-height: 20px; margin-bottom: 20px; font-weight: 500; text-align: justify; }
-        .geo-box { background-color: #EFF6FF; border: 1px solid #BFDBFE; color: #1E3A8A; padding: 14px; border-radius: 6px; font-size: 14px; line-height: 20px; margin-bottom: 20px; }
-        .plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .plan-box { border: 2px solid #E5E7EB; padding: 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: space-between; }
-        .plan-box:hover { border-color: #1877F2; background-color: #F8FAFC; }
-        .plan-badge { background-color: #E0F2FE; color: #0369A1; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; display: inline-block; width: max-content; margin-bottom: 10px; }
-        .plan-badge.purple { background-color: #F3E8FF; color: #6B21A8; }
-        .plan-box h3 { font-size: 18px; font-weight: bold; margin-bottom: 6px; color: #111827; }
-        .plan-box p { font-size: 13px; color: #6B7280; line-height: 18px; }
-        .price-tag { border-top: 1px solid #F1F5F9; margin-top: 14px; padding-top: 12px; font-size: 22px; font-weight: 900; color: #111827; }
-        .price-tag span { font-size: 13px; color: #6B7280; font-weight: normal; }
-
-        @media (max-width: 768px) {
-            .split-container { flex-direction: column; gap: 30px; text-align: center; }
-            .left-box h1 { font-size: 46px; }
-            .left-box p { font-size: 18px; line-height: 22px; }
-            .avatar-grid { margin: 0 auto; }
-            .right-box { width: 100%; }
-            .plans-grid { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
-<body>
+<body style="margin: 0; padding: 20px; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; background-color: #F0F2F5; color: #1C1E21; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
 
-    <!-- 1. BANNER VERDE SUPREMO (3 SEGUNDOS DE DURAÇÃO EXATA) -->
-    <div id="top-success-ribbon" class="hidden">
+    <!-- BANNER DE SUCESSO VERDE (3 SEGUNDOS) -->
+    <div id="top-success-ribbon" style="display: none; position: fixed; top: 0; left: 0; right: 0; background-color: #00A400; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 16px; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <span id="ribbon-text">Parabéns pelo teu perfil novo de usuário!</span>
     </div>
 
-    <!-- 2. ETAPA 1: SPLIT-SCREEN CARD -->
-    <div id="signup-step1" class="split-container">
-        <!-- Lado Esquerdo -->
-        <div class="left-box">
-            <h1>Oculus Streaming</h1>
-            <p>520 prémio Conecte-se com a comunidade sonora do amanhã. Explora as coisas que adoras.</p>
-            <div class="avatar-grid">
-                <div class="avatar-slot">Art 1</div>
-                <div class="avatar-slot">Art 2</div>
-                <div class="avatar-slot">Art 3</div>
-                <div class="avatar-slot">Art 4</div>
+    <!-- ETAPA 1: SPLIT-SCREEN REAL -->
+    <div id="signup-step1" style="display: flex; flex-direction: row; max-width: 1000px; width: 100%; gap: 60px; align-items: center; justify-content: center;">
+        
+        <!-- LADO ESQUERDO: TEXTO E ARTISTAS -->
+        <div style="flex: 1; max-width: 500px;">
+            <h1 style="color: #1877F2; font-size: 56px; font-weight: bold; letter-spacing: -2px; margin-bottom: 12px;">Oculus Streaming</h1>
+            <p style="font-size: 24px; font-weight: normal; line-height: 28px; margin-bottom: 30px; color: #1C1E21;">
+                520 prémio Conecte-se com a comunidade sonora do amanhã. Explora as coisas que adoras.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 360px;">
+                <div style="aspect-ratio: 1/1; background-color: #FFFFFF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #606770; border: 1px solid #CCD0D5; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">ART 1</div>
+                <div style="aspect-ratio: 1/1; background-color: #FFFFFF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #606770; border: 1px solid #CCD0D5; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">ART 2</div>
+                <div style="aspect-ratio: 1/1; background-color: #FFFFFF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #606770; border: 1px solid #CCD0D5; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">ART 3</div>
+                <div style="aspect-ratio: 1/1; background-color: #FFFFFF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #606770; border: 1px solid #CCD0D5; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">ART 4</div>
             </div>
         </div>
 
-        <!-- Lado Direito (Formulário) -->
-        <div class="right-box">
+        <!-- LADO DIREITO: CAIXA BRANCA ESTILO FACEBOOK -->
+        <div style="width: 432px; background-color: #FFFFFF; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1); border: 1px solid #DEE1E6;">
             <form id="form-cadastro-basico" onsubmit="executarCadastroEtapa1(event)">
-                <div class="form-grid-2">
-                    <input type="text" id="reg-nome" placeholder="Nome próprio" required class="input-field" style="margin-bottom:0;">
-                    <input type="text" id="reg-apelido" placeholder="Apelido" required class="input-field" style="margin-bottom:0;">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <input type="text" id="reg-nome" placeholder="Nome próprio" required style="width: 100%; padding: 11px; border: 1px solid #CCD0D5; border-radius: 6px; background-color: #F5F6F7; font-size: 15px; outline: none; color: #1C1E21;">
+                    <input type="text" id="reg-apelido" placeholder="Apelido" required style="width: 100%; padding: 11px; border: 1px solid #CCD0D5; border-radius: 6px; background-color: #F5F6F7; font-size: 15px; outline: none; color: #1C1E21;">
                 </div>
 
-                <input type="text" id="reg-contacto" placeholder="Telemóvel ou E-mail" required class="input-field">
+                <input type="text" id="reg-contacto" placeholder="Telemóvel ou E-mail" required style="width: 100%; padding: 11px; border: 1px solid #CCD0D5; border-radius: 6px; background-color: #F5F6F7; font-size: 15px; outline: none; margin-bottom: 12px; color: #1C1E21;">
                 
-                <div>
-                    <input type="password" id="reg-password" placeholder="Palavra-passe" required oninput="validarSenhaEstrita(this.value)" class="input-field">
+                <div style="margin-bottom: 16px;">
+                    <input type="password" id="reg-password" placeholder="Palavra-passe (11 caracteres)" required oninput="validarSenhaEstrita(this.value)" style="width: 100%; padding: 11px; border: 1px solid #CCD0D5; border-radius: 6px; background-color: #F5F6F7; font-size: 15px; outline: none; color: #1C1E21;">
+                    <div id="password-feedback" style="font-size: 13px; font-weight: 600; margin-top: 6px; padding: 6px; border-radius: 4px; color: #DC2626; background-color: #FEE2E2; border: 1px solid #FCA5A5;">Senha muito fraca! Insira exatamente 11 caracteres.</div>
+                </div>
+
+                <!-- SELETORES DE DATA OPERACIONAIS -->
+                <div style="margin-bottom: 14px;">
+                    <span style="font-size: 12px; color: #606770; font-weight: bold; margin-bottom: 6px; display: block;">Data de nascimento</span>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <select id="birth-day" required style="width: 100%; padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; background-color: #FFFFFF; font-size: 15px; height: 40px; color: #1C1E21;"></select>
+                        <select id="birth-month" required style="width: 100%; padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; background-color: #FFFFFF; font-size: 15px; height: 40px; color: #1C1E21;"></select>
+                        <select id="birth-year" required style="width: 100%; padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; background-color: #FFFFFF; font-size: 15px; height: 40px; color: #1C1E21;"></select>
+                    </div>
+                </div>
+
+                <!-- GÉNERO -->
+                <div style="margin-bottom: 24px;">
+                    <span style="font-size: 12px; color: #606770; font-weight: bold; margin-bottom: 6px; display: block;">Género</span>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <label style="padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; background-color: #FFFFFF; font-size: 15px; cursor: pointer; height: 40px; color: #1C1E21;">Feminino <input type="radio" name="gender" value="Feminino" required></label>
+                        <label style="padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; background-color: #FFFFFF; font-size: 15px; cursor: pointer; height: 40px; color: #1C1E21;">Masculino <input type="radio" name="gender" value="Masculino"></label>
+                        <label style="padding: 10px; border: 1px solid #CCD0D5; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; background-color: #FFFFFF; font-size: 15px; cursor: pointer; height: 40px; color: #1C1E21;">Outro <input type="radio" name="gender" value="Personalizado"></label>
+                    </div>
+                </div>
+
+                <!-- BOTÃO VERDE OFICIAL -->
+                <button type="submit" id="btn-submit-cadastro" disabled style="width: 100%; background-color: #00A400; color: #FFFFFF; border: none; padding: 12px; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; opacity: 0.5;">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TELA AMARELA DE CONGELAMENTO ANTI-FRAUDE -->
+    <div id="freeze-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #FFFBEB; align-items: center; justify-content: center; padding: 20px; z-index: 500;">
+        <div style="max-w: 460px; width: 100%; background-color: #FFFFFF; padding: 30px; border-radius: 8px; border: 2px solid #FBBF24; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
+            <div style="width: 60px; height: 60px; background-color: #FEF3C7; color: #D97706; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; margin: 0 auto 16px auto;">!</div>
+            <h2 style="font-size: 22px; font-weight: 800; color: #1F2937; margin-bottom: 12px;">Verificação Interna Ativa</h2>
+            <p style="color: #4B5563; font-weight: 500; font-size: 15px; line-height: 22px; margin-bottom: 24px;">Os seus dados estão a ser verificados. Isto pode demorar um pouco, mas em menos de 1 hour estará pronto. Aguarde ou fale com o suporte do site.</p>
+            <div style="border-top: 1px solid #E5E7EB; padding-top: 16px;">
+                <a href="mailto:mpindinoelevogarcia61@gmail.com" style="color: #1877F2; font-weight: bold; text-decoration: none; font-size: 14px;">Contatar: mpindinoelevogarcia61@gmail.com</a>
+            </div>
+            <button type="button" onclick="simularBypassDono()" style="margin-top: 24px; background-color: #F3F4F6; border: 1px solid #D1D5DB; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: bold; color: #374151; cursor: pointer; width: 100%;">Ativar Conta Sem Código (Mestre Mpindi Bypass)</button>
+        </div>
+    </div>
+
+    <!-- ABA DE ATIVAÇÃO FINANCEIRA -->
+    <div id="activation-step2" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #F0F2F5; align-items: center; justify-content: center; padding: 20px; z-index: 600;">
+        <div style="max-w: 680px; width: 100%; background-color: #FFFFFF; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #E5E7EB;">
+            <h2 style="font-size: 24px; font-weight: 800; color: #1F2937; border-bottom: 1px solid #E5E7EB; padding-bottom: 12px; margin-bottom: 14px;">Biografia da Oculus - Ativação do Canal</h2>
