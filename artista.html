@@ -1,149 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oculus - Perfil do Artista</title>
+    <title>Oculus Studio - Painel do Artista (Muzik 520)</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0c0c0c; color: #fff; padding-bottom: 50px; }
-
-        /* TOPO DO PERFIL (CAPA E AVATAR) */
-        .profile-container { max-width: 1030px; margin: 0 auto; background-color: #141414; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; overflow: hidden; border: 1px solid #222; }
-        .cover-photo-box { width: 100%; height: 320px; background: linear-gradient(45deg, #1e1e24, #111115); position: relative; }
-        .cover-photo-box img { width: 100%; height: 100%; object-fit: cover; }
-        .profile-details-wrapper { padding: 10px 32px 20px 32px; display: flex; align-items: flex-end; margin-top: -40px; }
-        .avatar-box { width: 160px; height: 160px; border-radius: 50%; border: 5px solid #141414; overflow: hidden; background-color: #252525; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666; }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .artist-info-text { margin-left: 20px; margin-bottom: 10px; flex-grow: 1; }
-        .artist-name { font-size: 28px; font-weight: 700; color: #fff; }
-        .artist-stats { font-size: 14px; color: #b0b3b8; margin-top: 4px; }
-        .profile-actions { display: flex; gap: 10px; margin-bottom: 10px; }
-        .btn-action { padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; }
-        .btn-blue { background-color: #1877f2; color: white; }
-        .btn-gray { background-color: #3a3b3c; color: white; }
-
-        /* NAVEGAÇÃO HORIZONTAL DE ABAS */
-        .profile-nav { display: flex; gap: 5px; padding: 0 20px; border-top: 1px solid #222; background-color: #141414; }
-        .nav-tab-btn { background: none; border: none; color: #b0b3b8; padding: 15px 16px; font-size: 15px; font-weight: 600; cursor: pointer; position: relative; transition: 0.2s; }
-        .nav-tab-btn:hover { color: #fff; background-color: #222; }
-        .nav-tab-btn.active { color: #1877f2; }
-        .nav-tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background-color: #1877f2; }
-
-        /* SECCÕES DAS ABAS (FEED, UPLOAD, STATS) */
-        .tab-section { display: none; }
-        .tab-section.active { display: block; }
-
-        /* ABA GERAL: DIVISÃO EM COLUNA DE FOTOS E COLUNA DE VÍDEOS (FEED) */
-        .feed-grid-layout { max-width: 1030px; margin: 20px auto 0 auto; display: grid; grid-template-columns: 360px 1fr; gap: 16px; }
+        /* CSS INTERNO COMPLETO - DESIGN CLÁSSICO ESTILO FACEBOOK COM REGRAS ANTI-CORTE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #F0F2F5; color: #1C1E21; min-height: 100vh; padding-top: 56px; }
         
-        /* COLUNA DA ESQUERDA: GRELHA DE FOTOS */
-        .left-info-column { display: flex; flex-direction: column; gap: 16px; }
-        .fb-card { background-color: #242526; border-radius: 8px; padding: 16px; border: 1px solid #2d2e2f; }
-        .fb-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-        .fb-card-title { font-size: 20px; font-weight: 700; color: #e4e6eb; }
+        .hidden { display: none !important; }
+        .fb-box { background-color: #FFFFFF; border-radius: 8px; border: 1px solid #CCD0D5; box-shadow: 0 1px 2px rgba(0,0,0,0.1); padding: 15px; margin-bottom: 16px; }
         
-        .photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; border-radius: 6px; overflow: hidden; }
-        .photo-item { width: 100%; height: 108px; background-color: #141414; border: 1px solid #3a3b3c; overflow: hidden; }
-        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+        /* 1. TOPO FIXO (HEADER SUPERIOR) */
+        header { position: fixed; top: 0; left: 0; right: 0; height: 56px; background-color: #FFFFFF; border-bottom: 1px solid #CCD0D5; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 500; }
+        .logo-box { color: #1877F2; font-size: 24px; font-weight: bold; letter-spacing: -1px; cursor: pointer; }
+        .nav-center { display: flex; gap: 30px; }
+        .nav-icon-btn { font-size: 20px; cursor: pointer; color: #65676B; background: none; border: none; padding: 8px 16px; }
+        .nav-icon-btn.active { color: #1877F2; border-bottom: 3px solid #1877F2; }
+        .admin-badge-btn { background-color: #FEE2E2; color: #DC2626; font-weight: bold; border: 1px solid #FCA5A5; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        
+        /* BANNER DE SUCESSO VERDE (3 SEGUNDOS DE DESTRUIÇÃO EXATA) */
+        #top-success-ribbon { position: fixed; top: 0; left: 0; right: 0; background-color: #00A400; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 15px; z-index: 1000; transition: opacity 0.5s ease; }
 
-        /* COLUNA DA DIREITA: FEED */
+        /* 2. HERO LAYOUT - TOPO DO PERFIL */
+        .profile-hero { background-color: #FFFFFF; border-bottom: 1px solid #CCD0D5; margin-bottom: 20px; position: relative; }
+        .cover-frame { height: 280px; background-color: #D1D5DB; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .cover-img { width: 100%; height: 100%; object-fit: cover; }
+        .btn-edit-cover { position: absolute; bottom: 16px; right: 16px; background-color: #FFFFFF; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        .hero-details-container { max-width: 940px; margin: 0 auto; padding: 0 32px 16px 32px; display: flex; align-items: flex-end; position: relative; margin-top: -30px; gap: 24px; }
+        .avatar-frame { width: 168px; height: 168px; border-radius: 50%; border: 5px solid #FFFFFF; background-color: #E4E6EB; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; }
+        .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+        .artist-info-meta { padding-bottom: 16px; flex: 1; }
+        .artist-name-title { font-size: 32px; font-weight: 800; color: #050505; display: flex; align-items: center; gap: 8px; }
+        .prof-badge { background-color: #E7F3FF; color: #1877F2; font-size: 13px; font-weight: bold; padding: 4px 8px; border-radius: 6px; }
+        .metrics-line { font-size: 14px; color: #65676B; font-weight: 600; margin-top: 4px; }
+
+        /* 3. BARRA DE NAVEGAÇÃO DE ABAS HORIZONTAIS OPERACIONAIS */
+        .tabs-navbar-wrapper { border-top: 1px solid #E4E6EB; max-width: 940px; margin: 0 auto; padding: 0 32px; }
+        .tabs-list { display: flex; list-style: none; gap: 4px; position: relative; }
+        .tab-item { padding: 16px 12px; font-weight: 600; font-size: 15px; color: #65676B; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+        .tab-item:hover { background-color: #F2F2F2; border-radius: 6px; }
+        .tab-item.active { color: #1877F2; border-bottom: 3px solid #1877F2; border-radius: 0; }
+        
+        /* Dropdown Mais */
+        .dropdown-menu-vertical { position: absolute; top: 100%; right: 0; background: white; border: 1px solid #CCD0D5; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 180px; z-index: 200; padding: 6px; display: none; }
+        .dropdown-menu-vertical button { width: 100%; text-align: left; padding: 10px; font-weight: 600; font-size: 14px; border: none; background: none; cursor: pointer; border-radius: 6px; color: #1C1E21; }
+        .dropdown-menu-vertical button:hover { background-color: #F2F2F2; }
+
+        /* 4. CONTENTOR DUPLO (COLUNAS DO LAYOUT) */
+        .main-layout-grid { max-width: 940px; margin: 20px auto; padding: 0 16px; display: grid; grid-template-columns: 360px 1fr; gap: 16px; }
+        
+        /* Coluna Esquerda: Blocos Laterais */
+        .left-sidebar-column { display: flex; flex-direction: column; gap: 16px; }
+        .block-header-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .block-header-title h3 { font-size: 20px; font-weight: 800; color: #050505; }
+        .block-link { color: #1877F2; text-decoration: none; font-size: 15px; cursor: pointer; }
+        .block-link:hover { background-color: #F2F2F2; padding: 4px 6px; border-radius: 4px; }
+        
+        /* Grelhas laterais 3x3 */
+        .matrix-grid-3x3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; border-radius: 8px; overflow: hidden; }
+        .matrix-slot { aspect-ratio: 1/1; background-color: #E4E6EB; position: relative; cursor: pointer; overflow: hidden; }
+        .matrix-slot img { width: 100%; height: 100%; object-fit: cover; }
+        .friend-name-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: white; font-size: 11px; text-align: center; padding: 2px; font-weight: 600; }
+
+        /* Coluna Direita: Feed e Formulários */
         .right-feed-column { display: flex; flex-direction: column; gap: 16px; }
-        .creator-post-box { background-color: #242526; border-radius: 8px; padding: 16px; border: 1px solid #2d2e2f; }
-        .post-input-row { display: flex; gap: 10px; align-items: center; border-bottom: 1px solid #3a3b3c; padding-bottom: 12px; margin-bottom: 10px; }
-        .mini-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background-color: #333; }
-        .post-trigger-input { flex-grow: 1; background-color: #3a3b3c; border: none; border-radius: 20px; padding: 10px 16px; color: #b0b3b8; font-size: 15px; text-align: left; cursor: pointer; }
-        .post-actions-row { display: flex; justify-content: space-around; font-size: 14px; color: #b0b3b8; font-weight: 600; padding-top: 4px; }
-        .act-item { cursor: pointer; display: flex; align-items: center; gap: 6px; }
-
-        .feed-post-card { background-color: #242526; border-radius: 8px; border: 1px solid #2d2e2f; padding: 16px; margin-bottom: 16px; }
-        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .post-author-name { font-size: 15px; font-weight: 600; color: #e4e6eb; }
-        .post-time { font-size: 12px; color: #b0b3b8; }
-        .post-caption { font-size: 15px; color: #e4e6eb; margin-bottom: 12px; }
         
-        .post-media-video-display { width: 100%; position: relative; padding-bottom: 56.25%; height: 0; background-color: #0c0c0c; border-radius: 6px; overflow: hidden; border: 1px solid #3a3b3c; }
-        .post-media-video-display iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        /* Caixa de Publicação */
+        .publishing-box-input { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .dummy-input-bar { flex: 1; background-color: #F0F2F5; padding: 10px 16px; border-radius: 20px; color: #65676B; font-size: 15px; font-weight: 500; }
+        .dummy-input-bar:hover { background-color: #E4E6EB; }
+        
+        /* POPUP CENTRAL DE SELEÇÃO DE CATEGORIAS */
+        .dark-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .popup-central-card { background: white; width: 480px; border-radius: 8px; padding: 20px; box-shadow: 0 12px 36px rgba(0,0,0,0.25); text-align: center; }
+        .popup-central-card h4 { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-bottom: 1px solid #E4E6EB; padding-bottom: 10px; }
+        .triggers-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .trigger-btn { padding: 16px; background-color: #F0F2F5; border: 1px solid #CCD0D5; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; text-align: center; }
+        .trigger-btn:hover { background-color: #E4E6EB; border-color: #1877F2; color: #1877F2; }
 
-        /* ESTILO DOS FORMULÁRIOS DAS OUTRAS ABAS */
-        .inner-container-box { max-width: 1030px; margin: 20px auto 0 auto; background-color: #242526; border-radius: 8px; padding: 25px; border: 1px solid #2d2e2f; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 11px; color: #888; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 14px; }
-        .form-group input:focus { border-color: #1877f2; outline: none; }
-    </style>
-</head>
-<body>
+        /* 5. DIRETRIZ VISUAL CSS ANTI-CORTE PARA PUBLICAÇÕES */
+        .media-post-container { width: 100%; max-height: 480px; background-color: #000000; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 10px; }
+        .media-post-container img, .media-post-container video { width: 100%; height: 100%; object-fit: contain !important; background-size: contain !important; }
 
-    <!-- CABEÇALHO DO PERFIL (ESTILO FACEBOOK) -->
-    <div class="profile-container">
-        <div class="cover-photo-box">
-            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#555; font-weight:bold;">Capa do Perfil</div>
-        </div>
-        <div class="profile-details-wrapper">
-            <div class="avatar-box" id="perfilAvatarContainer">Perfil</div>
-            <div class="artist-info-text">
-                <div class="artist-name" id="labelArtistName">Carregando Artista...</div>
-                <div class="artist-stats">5 mil seguidores • 121 a seguir</div>
-            </div>
-            <div class="profile-actions">
-                <button class="btn-action btn-blue" onclick="mudarAbaMenu('feed-geral', this)"> Solomon 🏠 Feed Geral</button>
-            </div>
-        </div>
+        /* Post Card Estrutura */
+        .post-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .post-avatar-mini { width: 40px; height: 40px; border-radius: 50%; background-color: #1877F2; }
+        .post-author-name { font-weight: bold; font-size: 15px; }
+        .post-time-sub { font-size: 12px; color: #65676B; }
+        
+        /* Contadores em tempo real */
+        .live-count-row { display: flex; justify-content: space-between; font-size: 13px; color: #65676B; padding: 8px 0; border-bottom: 1px solid #E4E6EB; margin-top: 10px; position: relative; }
+        .likes-hover-trigger { cursor: pointer; }
+        .likes-hover-trigger:hover .names-tooltip-balloon { display: block; }
+        
+        /* Balão Flutuante (Tooltip) com os Nomes de quem gostou */
+        .names-tooltip-balloon { display: none; position: absolute; bottom: 24px; left: 0; background: rgba(0,0,0,0.85); color: white; padding: 6px 10px; border-radius: 4px; font-size: 11px; width: max-content; z-index: 100; font-weight: normal; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+        
+        /* Triggers inferiores do Post Card */
+        .triggers-actions-bar { display: flex; justify-content: space-around; padding: 4px 0; }
+        .action-trigger-btn { flex: 1; background: none; border: none; padding: 8px; color: #65676B; font-weight: 600; font-size: 14px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .action-trigger-btn:hover { background-color: #F2F2F2; }
+        .action-trigger-btn.liked-active { color: #1877F2; }
 
-        <!-- ABAS DE NAVEGAÇÃO HORIZONTAIS -->
-        <div class="profile-nav">
-            <button class="nav-tab-btn active" onclick="mudarAbaMenu('feed-geral', this)">Tudo (Feed)</button>
-            <button class="nav-tab-btn" onclick="mudarAbaMenu('aba-upload', this)">Subir Vídeo/Música</button>
-            <button class="nav-tab-btn" onclick="mudarAbaMenu('aba-estatisticas', this)">Estatísticas Reais</button>
-        </div>
-    </div>
+        /* Caixa Avançada de Comentários */
+        .comment-matrix-input-box { display: flex; gap: 10px; align-items: center; border-top: 1px solid #E4E6EB; padding-top: 10px; margin-top: 4px; }
+        .rounded-comment-bar { flex: 1; background-color: #F0F2F5; border-radius: 20px; padding: 8px 16px; border: none; font-size: 14px; outline: none; }
+        .rounded-comment-bar::placeholder { color: #65676B; }
 
-    <!-- 1. ABA DO FEED PRINCIPAL -->
-    <div id="feed-geral" class="tab-section active">
-        <div class="feed-grid-layout">
-            <!-- COLUNA DA ESQUERDA: FOTOS -->
-            <div class="left-info-column">
-                <div class="fb-card">
-                    <div class="fb-card-header"><div class="fb-card-title">Fotos</div></div>
-                    <div class="photos-grid" id="galeriaFotosEsquerda">
-                        <div class="photo-item"></div>
-                        <div class="photo-item"></div>
-                        <div class="photo-item"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COLUNA DA DIREITA: FEED -->
-            <div class="right-feed-column">
-                <div class="creator-post-box">
-                    <div class="post-input-row">
-                        <div class="mini-avatar"></div>
-                        <button class="post-trigger-input" onclick="mudarAbaMenu('aba-upload')">Em que estás a pensar?</button>
-                    </div>
-                </div>
-                <div id="containerFeedVideos">
-                    <!-- O feed de uploads reais cairá aqui -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. ABA DE UPLOAD DE CONTEÚDO -->
-    <div id="aba-upload" class="tab-section">
-        <div class="inner-container-box">
-            <h3 style="margin-bottom:15px; color:#1877f2;">Lançar Novo Videoclipe ou Single no Feed</h3>
-            <form id="formFBUpload">
-                <div class="form-group"><label>Título ou Descrição do Post *</label><input type="text" id="fbTitulo" required placeholder="Ex: Nova Track Oficial 2026"></div>
-                <div class="form-group"><label>Link do Vídeo do YouTube (Link ou Iframe) *</label><input type="text" id="fbLink" required placeholder="Cole o link do seu vídeo do YouTube"></div>
-                <div class="form-group"><label>Link da Capa do Post (postimages.org)</label><input type="url" id="fbCapa" placeholder="https://postimages.org"></div>
-                <button type="submit" class="btn-action btn-blue" style="width:100%; padding:12px; text-transform:uppercase;">Publicar no Feed</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- 3. ABA DE ESTATÍSTICAS -->
-    <div id="aba-estatisticas" class="tab-section">
-        <div class="inner-container-box">
-            <h3 style="margin-bottom:15px; color:#2ecc71;">Monitor de Audiência Reais (Anti-Spam)</h3>
-            <div style="background-color:#0c0c0c; padding:30px; border-radius:6px; border:1px solid #3a3b3c; text-align:center;">
+        /* FORMULÁRIO SUBIR NOVO */
