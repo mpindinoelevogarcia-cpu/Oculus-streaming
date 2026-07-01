@@ -1,157 +1,132 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oculus Streaming</title>
+    <title>Oculus Streaming - Muzik 520</title>
+    <script src="https://tailwindcss.com"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-        body { background-color: #141414; color: #fff; display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 20px; }
-        
-        .container { display: flex; max-width: 1000px; width: 100%; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid #222; }
-        .left-panel { flex: 1; padding: 60px; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(135deg, #141414 0%, #070707 100%); }
-        .right-panel { flex: 1; padding: 60px; background-color: #141414; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid #222; }
-        
-        .logo { font-size: 32px; font-weight: 900; color: #e50914; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-        .main-title { font-size: 36px; font-weight: bold; line-height: 1.2; margin-bottom: 30px; }
-        .pub-space { background-color: #0c0c0c; border: 1px dashed #333; height: 180px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #666; font-size: 14px; }
-        
-        h2 { font-size: 24px; margin-bottom: 8px; font-weight: bold; }
-        .subtitle { color: #888; font-size: 13px; margin-bottom: 25px; }
-        
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 11px; color: #aaa; margin-bottom: 6px; text-transform: uppercase; font-weight: bold; }
-        input, select { width: 100%; padding: 14px; background-color: #0c0c0c; border: 1px solid #333; border-radius: 4px; color: white; font-size: 14px; }
-        input:focus, select:focus { border-color: #e50914; outline: none; }
-        
-        .box-instrucoes { background-color: #1c1c1c; border-left: 4px solid #e50914; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; color: #ccc; line-height: 1.4; }
-        
-        .btn-submit { width: 100%; padding: 14px; background-color: #e50914; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 15px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .btn-submit:hover { background-color: #b80710; }
-        
-        .toggle-form { margin-top: 25px; text-align: center; font-size: 13px; color: #888; }
-        .toggle-link { color: #e50914; cursor: pointer; font-weight: bold; text-decoration: underline; }
+        /* Estilos customizados adicionais para o Facebook Style */
+        .fb-shadow { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
+        .hidden { display: none !important; }
+        .text-weak { color: #E41E3F; font-weight: bold; }
+        .text-strong { color: #10B981; font-weight: bold; }
     </style>
 </head>
-<body>
+<body class="bg-[#F0F2F5] text-[#1C1E21] font-sans min-height-screen">
 
-    <div class="container">
-        <!-- Lado Esquerdo: Publicidade -->
-        <div class="left-panel">
-            <div class="logo">Oculus</div>
-            <div class="main-title">Conecte-se com a comunidade sonora do amanhã.</div>
-            <div class="pub-space">👁️ Espaço de Publicidade Oculus</div>
-        </div>
+    <!-- 1. TELA DE SUCESSO DE 3 SEGUNDOS (BANNER VERDE) -->
+    <div id="top-success-ribbon" class="hidden fixed top-0 left-0 right-0 bg-[#10B981] text-white text-center py-2 font-bold z-50 transition-opacity duration-500">
+        <span id="ribbon-text">Parabéns pelo teu perfil novo de usuário!</span>
+    </div>
+
+    <!-- 2. ETAPA 1: SPLIT-SCREEN SIGNUP (ESTILO FACEBOOK CLÁSSICO) -->
+    <div id="signup-step1" class="min-h-screen flex flex-col md:flex-row items-center justify-center max-w-6xl mx-auto px-4 py-12 gap-8 md:gap-16">
         
-        <!-- Lado Direito: Cadastro Sem Travas -->
-        <div class="right-panel">
-            
-            <!-- ABA 1: FORMULÁRIO DE ENTRAR -->
-            <div id="aba-entrar">
-                <h2>Entrar no Oculus</h2>
-                <div class="subtitle">Aceda à sua conta de ouvinte, artista ou painel master.</div>
-                <form onsubmit="fazerLogin(event)">
-                    <div class="form-group">
-                        <label>E-mail ou Telemóvel</label>
-                        <input type="text" id="loginUser" required placeholder="Digite o seu e-mail ou número">
-                    </div>
-                    <div class="form-group">
-                        <label>Palavra-passe</label>
-                        <input type="password" id="loginPass" required placeholder="Digite a sua senha">
-                    </div>
-                    <button type="submit" class="btn-submit">Entrar</button>
-                </form>
-                <div class="toggle-form">
-                    Novo no Oculus? <span class="toggle-link" onclick="mudarPainel('aba-registar')">Criar nova conta</span>
-                </div>
+        <!-- Lado Esquerdo: Texto Promocional e Grelha -->
+        <div class="w-full md:w-1/2 space-y-6">
+            <h1 class="text-[#1877F2] text-5xl md:text-6xl font-black tracking-tight">Oculus Streaming</h1>
+            <p class="text-[#1C1E21] text-2xl font-normal leading-tight">
+                520 prémio Conecte-se com a comunidade sonora do amanhã. Explora as coisas que adoras.
+            </p>
+            <!-- Grelha de 4 Slots Visuais com Avatares -->
+            <div class="grid grid-cols-4 gap-4 pt-4 max-w-md">
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A1</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A2</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A3</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A4</div>
             </div>
+        </div>
 
-            <!-- ABA 2: FORMULÁRIO DE REGISTAR -->
-            <div id="aba-registar" style="display: none;">
-                <h2>Criar Conta no Oculus</h2>
-                <div class="subtitle">Preencha os seus dados e comece agora os 5 dias grátis.</div>
+        <!-- Lado Direito: Formulário de Cadastro Clínico -->
+        <div class="w-full md:w-[430px] bg-white p-4 rounded-8px rounded-xl fb-shadow border border-gray-200">
+            <form id="form-cadastro-basico" onsubmit="executarCadastroEtapa1(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="reg-nome" placeholder="Nome próprio" required class="p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2] w-full">
+                    <input type="text" id="reg-apelido" placeholder="Apelido" required class="p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2] w-full">
+                </div>
+
+                <input type="text" id="reg-contacto" placeholder="Telemóvel ou E-mail" required class="w-full p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2]">
                 
-                <div class="box-instrucoes">
-                    🎁 <strong>Regra dos 5 Dias Grátis:</strong> Teste gratuito ativado. Após o prazo, músicos pagam 1.000 Kz/15 dias e restantes pagam 2.500 Kz/mês.
+                <!-- Medidor de Senha Rigoroso (Exatamente 11 Caracteres) -->
+                <div>
+                    <input type="password" id="reg-password" placeholder="Palavra-passe (Exatamente 11 caracteres)" required oninput="validarSenhaEstrita(this.value)" class="w-full p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2]">
+                    <div id="password-feedback" class="text-xs mt-1 text-weak">Senha muito fraca! Insira exatamente 11 caracteres.</div>
                 </div>
 
-                <form onsubmit="fazerRegisto(event)">
-                    <div class="form-group">
-                        <label>E-mail ou Telemóvel de Registo *</label>
-                        <input type="text" required placeholder="Ex: seuemail@exemplo.com ou 9xx xxx xxx">
+                <!-- loops de Nascimento Separados -->
+                <div>
+                    <label class="text-xs text-gray-600 block mb-1">Data de nascimento</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <select id="birth-day" required class="p-2 border border-gray-300 rounded bg-white text-sm"></select>
+                        <select id="birth-month" required class="p-2 border border-gray-300 rounded bg-white text-sm"></select>
+                        <select id="birth-year" required class="p-2 border border-gray-300 rounded bg-white text-sm"></select>
                     </div>
-                    <div class="form-group">
-                        <label>Palavra-passe *</label>
-                        <input type="password" required placeholder="Crie a sua senha livremente">
-                    </div>
-                    <div class="form-group">
-                        <label>Nome Artístico ou Nome do Canal *</label>
-                        <input type="text" id="registoNome" required placeholder="Mete qualquer nome artístico que quiseres">
-                    </div>
-                    <div class="form-group">
-                        <label>Tipo de Atividade *</label>
-                        <select id="registoSegmento">
-                            <option value="independente">Músico Independente (1.000 Kz / 15 dias)</option>
-                            <option value="produtora">Produtora Musical (2.500 Kz / 1 mês)</option>
-                            <option value="blogger">Blogger / Blog de Música (2.500 Kz / 1 mês)</option>
-                            <option value="agente">Agente / Manager Artístico (2.500 Kz / 1 mês)</option>
-                            <option value="social">Social Media (2.500 Kz / 1 mês)</option>
-                            <option value="eventos">Organizador de Eventos (2.500 Kz / 1 mês)</option>
-                            <option value="ouvinte">Ouvinte Comum (Totalmente Gratuito)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>País de Origem * (Obrigatório para Sorteio)</label>
-                        <select required>
-                            <option value="Angola">Angola 🇦🇴</option>
-                            <option value="Portugal">Portugal 🇵🇹</option>
-                            <option value="Brasil">Brasil 🇧🇷</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn-submit">Finalizar e Criar Conta</button>
-                </form>
-                <div class="toggle-form">
-                    Já tem uma conta? <span class="toggle-link" onclick="mudarPainel('aba-entrar')">Entre por aqui</span>
                 </div>
-            </div>
 
+                <!-- Gênero -->
+                <div>
+                    <label class="text-xs text-gray-600 block mb-1">Género</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-sm cursor-pointer">Feminino <input type="radio" name="gender" value="Feminino" required></label>
+                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-sm cursor-pointer">Masculino <input type="radio" name="gender" value="Masculino"></label>
+                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-sm cursor-pointer">Personalizado <input type="radio" name="gender" value="Personalizado"></label>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit-cadastro" disabled class="w-full bg-[#1877F2] text-white p-3 rounded-md font-bold text-xl hover:bg-[#166FE5] disabled:opacity-50 disabled:cursor-not-allowed">Criar Conta</button>
+            </form>
         </div>
     </div>
 
-    <script>
-        function mudarPainel(idAba) {
-            document.getElementById('aba-entrar').style.display = 'none';
-            document.getElementById('aba-registar').style.display = 'none';
-            document.getElementById(idAba).style.display = 'block';
-        }
+    <!-- 3. PROTOCOLO DE CONGELAMENTO ANTI-FRAUDE (TELA AMARELA) -->
+    <div id="freeze-screen" class="hidden min-h-screen bg-[#FFFBEB] flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+        <div class="max-w-md bg-white p-8 rounded-xl border-2 border-yellow-400 fb-shadow space-y-6">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto text-yellow-600 text-3xl font-bold">!</div>
+            <h2 class="text-2xl font-black text-gray-800">Verificação Interna Ativa</h2>
+            <p class="text-gray-700 font-medium text-base">
+                Os seus dados estão a ser verificados. Isto pode demorar um pouco, mas em menos de 1 hora estará pronto. Aguarde ou fale com o suporte do site.
+            </p>
+            <div class="border-t border-gray-200 pt-4">
+                <a href="mailto:mpindinoelevogarcia61@gmail.com" class="text-[#1877F2] font-semibold hover:underline block text-sm">Contatar: mpindinoelevogarcia61@gmail.com</a>
+            </div>
+            <button onclick="simularBypassDono()" class="text-xs bg-gray-200 px-4 py-2 rounded text-gray-500 hover:bg-gray-300 block mx-auto">Simular Ativação (Bypass do Dono)</button>
+        </div>
+    </div>
 
-        function fazerLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('loginUser').value.trim().toLowerCase();
-            const p = document.getElementById('loginPass').value;
+    <!-- 4. ETAPA 2: ABA DE ATIVAÇÃO FINANCEIRA E BIOGRAFIA -->
+    <div id="activation-step2" class="hidden min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white max-w-2xl w-full p-6 rounded-xl fb-shadow border border-gray-200 space-y-6">
+            <div class="border-b border-gray-200 pb-4">
+                <h2 class="text-2xl font-black text-gray-800">Biografia da Oculus - Ativação do Canal</h2>
+                <p class="text-sm text-gray-600 mt-2 font-medium">
+                    Regras operacionais: Tens direito a 5 dias grátis de teste completo. A falta de pagamento dos planos após esse prazo congelará o teu painel. Após 2 meses consecutivos em falta, o servidor ocultará e desativará o teu perfil público do ar de forma totalmente automatizada. A verificação do e-mail/telefone é obrigatória para processamento e recebimento de lucros futuros.
+                </p>
+            </div>
 
-            if (u === "mpindinoelevogarcia61@gmail.com" && p === "Mpindi2026@") {
-                alert("Dono autenticado com sucesso! A abrir o Painel Supremo...");
-                window.location.href = "admin.html";
-            } else {
-                alert("Login efetuado com sucesso!");
-                // Simula nome padrão se entrar direto sem se cadastrar antes
-                localStorage.setItem('oculus_nome_artista', "Depini Mbongo Edpmusic");
-                window.location.href = "artista.html";
-            }
-        }
+            <!-- Moeda e Instruções Dinâmicas baseados em Geolocalização -->
+            <div id="geo-currency-box" class="bg-blue-50 p-4 rounded-lg border border-blue-200 text-sm text-blue-900">
+                <!-- Injetado por JS baseado na Localização -->
+            </div>
 
-        function fazerRegisto(e) {
-            e.preventDefault();
-            const nomeArtista = document.getElementById('registoNome').value.trim();
-            const seg = document.getElementById('registoSegmento').value;
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- PLANO CRIATIVO -->
+                <div class="border-2 border-gray-200 p-5 rounded-lg hover:border-[#1877F2] transition cursor-pointer flex flex-col justify-between" onclick="selecionarPlano('Criativo')">
+                    <div>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">Músicos e Designers</span>
+                        <h3 class="text-xl font-bold mt-2">Plano Criativo</h3>
+                        <p class="text-sm text-gray-500 mt-1">Músicos Independentes, Bloggers, Social Media, Beatmakers, Designers Gráficos.</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <span id="price-criativo" class="text-2xl font-black text-gray-800">1.000 Kz</span> <span class="text-xs text-gray-500">/ 15 dias</span>
+                    </div>
+                </div>
 
-            // MEMÓRIA VIVA: Guarda o nome real que o músico digitou para mostrar no perfil dele
-            localStorage.setItem('oculus_nome_artista', nomeArtista);
-
-            alert("Cadastro efetuado com sucesso! Os seus 5 dias de teste gratuito começaram.");
-            window.location.href = seg === 'ouvinte' ? "index.html" : "artista.html";
-        }
-    </script>
-</body>
-</html>
+                <!-- PLANO EMPRESARIAL -->
+                <div class="border-2 border-gray-200 p-5 rounded-lg hover:border-[#1877F2] transition cursor-pointer flex flex-col justify-between" onclick="selecionarPlano('Empresarial')">
+                    <div>
+                        <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded">Produtores e Lojas</span>
+                        <h3 class="text-xl font-bold mt-2">Plano Empresarial</h3>
+                        <p class="text-sm text-gray-500 mt-1">Produtores Musicais, Video Makers, Empresas, E-commerce.</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
