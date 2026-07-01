@@ -4,59 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oculus Streaming - Muzik 520</title>
-    <script src="https://tailwindcss.com"></script>
+    <!-- Tailwind CSS Direto via CDN Estável para evitar bloqueios -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
-        /* Estilos customizados adicionais para o Facebook Style */
         .fb-shadow { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
         .hidden { display: none !important; }
         .text-weak { color: #E41E3F; font-weight: bold; }
         .text-strong { color: #10B981; font-weight: bold; }
+        body { background-color: #F0F2F5; color: #1C1E21; font-family: Segoe UI, Helvetica, Arial, sans-serif; }
     </style>
 </head>
-<body class="bg-[#F0F2F5] text-[#1C1E21] font-sans min-height-screen">
+<body class="min-h-screen">
 
-    <!-- 1. TELA DE SUCESSO DE 3 SEGUNDOS (BANNER VERDE) -->
-    <div id="top-success-ribbon" class="hidden fixed top-0 left-0 right-0 bg-[#10B981] text-white text-center py-2 font-bold z-50 transition-opacity duration-500">
+    <!-- 1. TELA DE SUCESSO DE 3 SEGUNDOS (BANNER VERDE TEMPORIZADO) -->
+    <div id="top-success-ribbon" class="hidden fixed top-0 left-0 right-0 bg-[#10B981] text-white text-center py-3 font-bold z-50 transition-all duration-500">
         <span id="ribbon-text">Parabéns pelo teu perfil novo de usuário!</span>
     </div>
 
-    <!-- 2. ETAPA 1: SPLIT-SCREEN SIGNUP (ESTILO FACEBOOK CLÁSSICO) -->
+    <!-- 2. ETAPA 1: SPLIT-SCREEN SIGNUP (ESTILO FACEBOOK REAL CLÁSSICO) -->
     <div id="signup-step1" class="min-h-screen flex flex-col md:flex-row items-center justify-center max-w-6xl mx-auto px-4 py-12 gap-8 md:gap-16">
         
-        <!-- Lado Esquerdo: Texto Promocional e Grelha -->
+        <!-- Lado Esquerdo: Texto Promocional e Grelha de Artistas -->
         <div class="w-full md:w-1/2 space-y-6">
-            <h1 class="text-[#1877F2] text-5xl md:text-6xl font-black tracking-tight">Oculus Streaming</h1>
-            <p class="text-[#1C1E21] text-2xl font-normal leading-tight">
+            <h1 class="text-[#1877F2] text-5xl md:text-6xl font-black tracking-tight" style="color: #1877F2;">Oculus Streaming</h1>
+            <p class="text-gray-900 text-2xl font-normal leading-tight">
                 520 prémio Conecte-se com a comunidade sonora do amanhã. Explora as coisas que adoras.
             </p>
+            
             <!-- Grelha de 4 Slots Visuais com Avatares -->
             <div class="grid grid-cols-4 gap-4 pt-4 max-w-md">
-                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A1</div>
-                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A2</div>
-                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A3</div>
-                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 border border-gray-400fb-shadow">A4</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-xl font-bold text-gray-700 border border-gray-400 fb-shadow h-20 w-20">Art 1</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-xl font-bold text-gray-700 border border-gray-400 fb-shadow h-20 w-20">Art 2</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-xl font-bold text-gray-700 border border-gray-400 fb-shadow h-20 w-20">Art 3</div>
+                <div class="aspect-square bg-gray-300 rounded-lg flex items-center justify-center text-xl font-bold text-gray-700 border border-gray-400 fb-shadow h-20 w-20">Art 4</div>
             </div>
         </div>
 
-        <!-- Lado Direito: Formulário de Cadastro Clínico -->
-        <div class="w-full md:w-[430px] bg-white p-4 rounded-8px rounded-xl fb-shadow border border-gray-200">
+        <!-- Lado Direito: Caixa de Cadastro Estilo Facebook -->
+        <div class="w-full md:w-[430px] bg-white p-6 rounded-xl fb-shadow border border-gray-200">
             <form id="form-cadastro-basico" onsubmit="executarCadastroEtapa1(event)" class="space-y-4">
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="reg-nome" placeholder="Nome próprio" required class="p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2] w-full">
-                    <input type="text" id="reg-apelido" placeholder="Apelido" required class="p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2] w-full">
+                    <input type="text" id="reg-nome" placeholder="Nome próprio" required class="p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none w-full">
+                    <input type="text" id="reg-apelido" placeholder="Apelido" required class="p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none w-full">
                 </div>
 
-                <input type="text" id="reg-contacto" placeholder="Telemóvel ou E-mail" required class="w-full p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2]">
+                <input type="text" id="reg-contacto" placeholder="Telemóvel ou E-mail" required class="w-full p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none">
                 
                 <!-- Medidor de Senha Rigoroso (Exatamente 11 Caracteres) -->
                 <div>
-                    <input type="password" id="reg-password" placeholder="Palavra-passe (Exatamente 11 caracteres)" required oninput="validarSenhaEstrita(this.value)" class="w-full p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none focus:border-[#1877F2]">
+                    <input type="password" id="reg-password" placeholder="Palavra-passe (Exatamente 11 caracteres)" required oninput="validarSenhaEstrita(this.value)" class="w-full p-3 border border-gray-300 rounded-md bg-[#F5F6F7] text-sm focus:outline-none">
                     <div id="password-feedback" class="text-xs mt-1 text-weak">Senha muito fraca! Insira exatamente 11 caracteres.</div>
                 </div>
 
                 <!-- loops de Nascimento Separados -->
                 <div>
-                    <label class="text-xs text-gray-600 block mb-1">Data de nascimento</label>
+                    <label class="text-xs text-gray-600 block mb-1 font-semibold">Data de nascimento</label>
                     <div class="grid grid-cols-3 gap-2">
                         <select id="birth-day" required class="p-2 border border-gray-300 rounded bg-white text-sm"></select>
                         <select id="birth-month" required class="p-2 border border-gray-300 rounded bg-white text-sm"></select>
@@ -64,23 +66,23 @@
                     </div>
                 </div>
 
-                <!-- Gênero -->
+                <!-- Género -->
                 <div>
-                    <label class="text-xs text-gray-600 block mb-1">Género</label>
+                    <label class="text-xs text-gray-600 block mb-1 font-semibold">Género</label>
                     <div class="grid grid-cols-3 gap-2">
-                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-sm cursor-pointer">Feminino <input type="radio" name="gender" value="Feminino" required></label>
-                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-sm cursor-pointer">Masculino <input type="radio" name="gender" value="Masculino"></label>
-                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-sm cursor-pointer">Personalizado <input type="radio" name="gender" value="Personalizado"></label>
+                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-xs cursor-pointer">Feminino <input type="radio" name="gender" value="Feminino" required></label>
+                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-xs cursor-pointer">Masculino <input type="radio" name="gender" value="Masculino"></label>
+                        <label class="p-2 border border-gray-300 rounded flex justify-between items-center bg-white text-xs cursor-pointer">Outro <input type="radio" name="gender" value="Personalizado"></label>
                     </div>
                 </div>
 
-                <button type="submit" id="btn-submit-cadastro" disabled class="w-full bg-[#1877F2] text-white p-3 rounded-md font-bold text-xl hover:bg-[#166FE5] disabled:opacity-50 disabled:cursor-not-allowed">Criar Conta</button>
+                <button type="submit" id="btn-submit-cadastro" disabled class="w-full bg-[#1877F2] text-white p-3 rounded-md font-bold text-xl hover:bg-[#166FE5] disabled:opacity-50 disabled:cursor-not-allowed" style="background-color: #1877F2;">Criar Conta</button>
             </form>
         </div>
     </div>
 
-    <!-- 3. PROTOCOLO DE CONGELAMENTO ANTI-FRAUDE (TELA AMARELA) -->
-    <div id="freeze-screen" class="hidden min-h-screen bg-[#FFFBEB] flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+    <!-- 3. PROTOCOLO DE CONGELAMENTO ANTI-FRAUDE (TELA AMARELA COMPLETA) -->
+    <div id="freeze-screen" class="hidden min-h-screen bg-[#FFFBEB] flex flex-col items-center justify-center p-6 text-center">
         <div class="max-w-md bg-white p-8 rounded-xl border-2 border-yellow-400 fb-shadow space-y-6">
             <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto text-yellow-600 text-3xl font-bold">!</div>
             <h2 class="text-2xl font-black text-gray-800">Verificação Interna Ativa</h2>
@@ -88,9 +90,9 @@
                 Os seus dados estão a ser verificados. Isto pode demorar um pouco, mas em menos de 1 hora estará pronto. Aguarde ou fale com o suporte do site.
             </p>
             <div class="border-t border-gray-200 pt-4">
-                <a href="mailto:mpindinoelevogarcia61@gmail.com" class="text-[#1877F2] font-semibold hover:underline block text-sm">Contatar: mpindinoelevogarcia61@gmail.com</a>
+                <a href="mailto:mpindinoelevogarcia61@gmail.com" class="text-blue-600 font-semibold hover:underline block text-sm">Contatar: mpindinoelevogarcia61@gmail.com</a>
             </div>
-            <button onclick="simularBypassDono()" class="text-xs bg-gray-200 px-4 py-2 rounded text-gray-500 hover:bg-gray-300 block mx-auto">Simular Ativação (Bypass do Dono)</button>
+            <button onclick="simularBypassDono()" class="mt-4 text-xs bg-gray-200 px-4 py-2 rounded text-gray-600 hover:bg-gray-300 block mx-auto font-bold">Ativar Conta Sem Código (Mestre Mpindi Bypass)</button>
         </div>
     </div>
 
@@ -104,18 +106,16 @@
                 </p>
             </div>
 
-            <!-- Moeda e Instruções Dinâmicas baseados em Geolocalização -->
-            <div id="geo-currency-box" class="bg-blue-50 p-4 rounded-lg border border-blue-200 text-sm text-blue-900">
-                <!-- Injetado por JS baseado na Localização -->
-            </div>
+            <!-- Moeda Inteligente e Instruções por Geolocalização -->
+            <div id="geo-currency-box" class="bg-blue-50 p-4 rounded-lg border border-blue-200 text-sm text-blue-900"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- PLANO CRIATIVO -->
-                <div class="border-2 border-gray-200 p-5 rounded-lg hover:border-[#1877F2] transition cursor-pointer flex flex-col justify-between" onclick="selecionarPlano('Criativo')">
+                <div class="border-2 border-gray-200 p-5 rounded-lg hover:border-blue-500 transition cursor-pointer flex flex-col justify-between" onclick="selecionarPlano('Criativo')">
                     <div>
                         <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">Músicos e Designers</span>
                         <h3 class="text-xl font-bold mt-2">Plano Criativo</h3>
-                        <p class="text-sm text-gray-500 mt-1">Músicos Independentes, Bloggers, Social Media, Beatmakers, Designers Gráficos.</p>
+                        <p class="text-xs text-gray-500 mt-1">Músicos Independentes, Bloggers, Social Media, Beatmakers, Designers Gráficos.</p>
                     </div>
                     <div class="mt-4 pt-4 border-t border-gray-100">
                         <span id="price-criativo" class="text-2xl font-black text-gray-800">1.000 Kz</span> <span class="text-xs text-gray-500">/ 15 dias</span>
@@ -123,10 +123,8 @@
                 </div>
 
                 <!-- PLANO EMPRESARIAL -->
-                <div class="border-2 border-gray-200 p-5 rounded-lg hover:border-[#1877F2] transition cursor-pointer flex flex-col justify-between" onclick="selecionarPlano('Empresarial')">
+                <div class="border-2 border-gray-200 p-5 rounded-lg hover:border-blue-500 transition cursor-pointer flex flex-col justify-between" onclick="selecionarPlano('Empresarial')">
                     <div>
                         <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded">Produtores e Lojas</span>
                         <h3 class="text-xl font-bold mt-2">Plano Empresarial</h3>
-                        <p class="text-sm text-gray-500 mt-1">Produtores Musicais, Video Makers, Empresas, E-commerce.</p>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500 mt-1">Produtores Musicais, Video Makers, Empresas, E-commerce.</p>
