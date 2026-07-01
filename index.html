@@ -7,12 +7,7 @@
 </head>
 <body style="margin: 0; padding: 20px; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #FFFFFF; color: #1C1E21; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
 
-    <!-- BANNER DE SUCESSO VERDE (3 SEGUNDOS) -->
-    <div id="top-success-ribbon" style="display: none; position: fixed; top: 0; left: 0; right: 0; background-color: #00A400; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 16px; z-index: 1000;">
-        <span id="ribbon-text">Parabéns, o teu plano foi ativado com sucesso!</span>
-    </div>
-
-    <!-- CONTENTOR CENTRAL DO FORMULÁRIO -->
+    <!-- 1. TELA DE REGISTO PRINCIPAL -->
     <div id="signup-step1" style="max-width: 450px; width: 100%; padding: 20px; position: relative;">
         
         <div style="color: #1877F2; font-size: 14px; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 4px;">
@@ -25,8 +20,8 @@
             Cria uma conta para estares em contacto com os amigos, a família e as comunidades de pessoas que têm os mesmos interesses que tu.
         </p>
 
-        <!-- REMOVIDO O REQUISITO OBRIGATÓRIO PARA DEIXAR ENTRAR DIRETO -->
-        <form id="form-cadastro-basico" onsubmit="executarCadastroEtapa1(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <!-- Mudado para button tipo button para impedir o bloqueio do formulário -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
             
             <div>
                 <label style="font-size: 14px; font-weight: bold; color: #1C1E21; display: block; margin-bottom: 6px;">Nome</label>
@@ -42,16 +37,13 @@
                 </label>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
                     <select id="birth-day" style="width: 100%; padding: 12px; border: 1px solid #CCD0D5; border-radius: 10px; background-color: #F5F6F7; font-size: 14px; color: #1C1E21; outline: none; height: 45px;">
-                        <option value="">Dia</option>
-                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                        <option value="13">13</option>
                     </select>
                     <select id="birth-month" style="width: 100%; padding: 12px; border: 1px solid #CCD0D5; border-radius: 10px; background-color: #F5F6F7; font-size: 14px; color: #1C1E21; outline: none; height: 45px;">
-                        <option value="">Mês</option>
-                        <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option><option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option><option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option><option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+                        <option value="1">Jan</option>
                     </select>
                     <select id="birth-year" style="width: 100%; padding: 12px; border: 1px solid #CCD0D5; border-radius: 10px; background-color: #F5F6F7; font-size: 14px; color: #1C1E21; outline: none; height: 45px;">
-                        <option value="">Ano</option>
-                        <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2015">2015</option><option value="2010">2010</option><option value="2005">2005</option><option value="2000">2000</option>
+                        <option value="2022">2022</option>
                     </select>
                 </div>
             </div>
@@ -59,10 +51,7 @@
             <div>
                 <label style="font-size: 14px; font-weight: bold; color: #1C1E21; display: block; margin-bottom: 6px;">Género</label>
                 <select id="reg-genero" style="width: 100%; padding: 12px 16px; border: 1px solid #CCD0D5; border-radius: 10px; background-color: #F5F6F7; font-size: 14px; color: #1C1E21; outline: none; height: 45px;">
-                    <option value="">Selecionar o teu género</option>
-                    <option value="Feminino">Feminino</option>
                     <option value="Masculino">Masculino</option>
-                    <option value="Personalizado">Personalizado</option>
                 </select>
             </div>
 
@@ -73,16 +62,15 @@
 
             <div>
                 <label style="font-size: 14px; font-weight: bold; color: #1C1E21; display: block; margin-bottom: 6px;">Palavra-passe</label>
-                <input type="password" id="reg-password" placeholder="Palavra-passe" oninput="validarSenhaEstrita(this.value)" style="width: 100%; padding: 12px 16px; border: 1px solid #CCD0D5; border-radius: 10px; background-color: #F5F6F7; font-size: 14px; outline: none; color: #1C1E21; box-sizing: border-box;">
-                <div id="password-feedback" style="font-size: 11px; font-weight: bold; margin-top: 6px; padding: 6px; border-radius: 6px; color: #DC2626; background-color: #FEE2E2; border: 1px solid #FCA5A5;">Aviso: A senha exige exatamente 11 caracteres!</div>
+                <input type="password" id="reg-password" placeholder="Palavra-passe" style="width: 100%; padding: 12px 16px; border: 1px solid #CCD0D5; border-radius: 10px; background-color: #F5F6F7; font-size: 14px; outline: none; color: #1C1E21; box-sizing: border-box;">
             </div>
 
-            <!-- BOTÃO DA META TOTALMENTE DESBLOQUEADO -->
-            <button type="submit" id="btn-submit-cadastro" style="width: 100%; background-color: #1877F2; color: #FFFFFF; border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px;">Enviar / Criar Conta</button>
-        </form>
+            <!-- BOTÃO COM FUNÇÃO ONCLICK DIRETA SEM TRAVAS -->
+            <button type="button" onclick="irParaTelaAmarela()" style="width: 100%; background-color: #1877F2; color: #FFFFFF; border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px;">Enviar / Criar Conta</button>
+        </div>
     </div>
 
-    <!-- TELA AMARELA DE CONGELAMENTO ANTI-FRAUDE -->
+    <!-- 2. TELA AMARELA DE CONGELAMENTO ANTI-FRAUDE -->
     <div id="freeze-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #FFFBEB; align-items: center; justify-content: center; padding: 20px; z-index: 500;">
         <div style="max-w: 460px; width: 100%; background-color: #FFFFFF; padding: 30px; border-radius: 12px; border: 2px solid #FBBF24; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
             <div style="width: 60px; height: 60px; background-color: #FEF3C7; color: #D97706; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; margin: 0 auto 16px auto;">!</div>
@@ -93,4 +81,45 @@
         </div>
     </div>
 
-    <!-- TELA DE ATIVAÇÃO DE PLANOS -->
+    <!-- 3. TELA DE ATIVAÇÃO DE PLANOS -->
+    <div id="activation-step2" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #F0F2F5; align-items: center; justify-content: center; padding: 20px; z-index: 600;">
+        <div style="max-w: 680px; width: 100%; background-color: #FFFFFF; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #E5E7EB;">
+            <h2 style="font-size: 22px; font-weight: bold; color: #1F2937; border-bottom: 1px solid #E5E7EB; padding-bottom: 12px; margin-bottom: 14px;">Biografia da Oculus - Ativação do Canal</h2>
+            <p style="font-size: 13px; color: #4B5563; line-height: 18px; margin-bottom: 20px;">
+                Regras operacionais: Tens direito a 5 dias grátis de teste completo. A falta de pagamento dos planos após esse prazo congelará o teu painel.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="border: 2px solid #E5E7EB; padding: 18px; border-radius: 10px; cursor: pointer;" onclick="selecionarPlano()">
+                    <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 6px;">Plano Criativo</h3>
+                    <p style="font-size: 12px; color: #6B7280;">Músicos Independentes, Bloggers, Social Media.</p>
+                    <div style="margin-top: 14px; font-size: 20px; font-weight: bold; color: #1C1E21;">1.000 Kz</div>
+                </div>
+                <div style="border: 2px solid #E5E7EB; padding: 18px; border-radius: 10px; cursor: pointer;" onclick="selecionarPlano()">
+                    <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 6px;">Plano Empresarial</h3>
+                    <p style="font-size: 12px; color: #6B7280;">Produtores Musicais, Video Makers, Empresas.</p>
+                    <div style="margin-top: 14px; font-size: 20px; font-weight: bold; color: #1C1E21;">2.000 Kz</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Transições diretas executadas no navegador na hora
+        function irParaTelaAmarela() {
+            document.getElementById('signup-step1').style.display = 'none';
+            document.getElementById('freeze-screen').style.display = 'flex';
+        }
+
+        function simularBypassDono() {
+            document.getElementById('freeze-screen').style.display = 'none';
+            document.getElementById('activation-step2').style.display = 'flex';
+        }
+
+        function selecionarPlano() {
+            document.getElementById('activation-step2').style.display = 'none';
+            alert("Plano Selecionado! Abrindo o Estúdio Privado...");
+            window.location.href = "artista.html";
+        }
+    </script>
+</body>
+</html>
